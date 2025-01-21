@@ -3,4 +3,5 @@
 .backup
 wezterm/*.jpg
 wezterm/*.png
+wezterm/*.jpeg
 work.zsh
