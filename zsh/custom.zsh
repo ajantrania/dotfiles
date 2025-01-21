@@ -18,7 +18,13 @@ export DOCKER_HOST=unix://${HOME}/.docker/run/docker.sock
 
 # Starship
 export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
-eval "$(starship init zsh)"
+# Check that the function `starship_zle-keymap-select()` is defined.
+# xref: https://github.com/starship/starship/issues/3418
+type starship_zle-keymap-select >/dev/null || \
+  {
+    echo "Load starship"
+    eval "$(starship init zsh)"
+  }
 # starship config palette $STARSHIP_THEME
 
 # Load Git completion
