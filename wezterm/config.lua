@@ -6,35 +6,24 @@ if wezterm.config_builder then
 end
 
 config = {
-  default_cursor_style = "SteadyBar",
   automatically_reload_config = true,
+  hide_tab_bar_if_only_one_tab = true,
   window_close_confirmation = "NeverPrompt",
-  adjust_window_size_when_changing_font_size = false,
-  window_decorations = "RESIZE",
-  check_for_updates = false,
-  use_fancy_tab_bar = false,
-  tab_bar_at_bottom = false,
-  font_size = 12.5,
-  font = wezterm.font("JetBrains Mono", { weight = "Bold" }),
-  enable_tab_bar = false,
-  window_padding = {
-    left = 3,
-    right = 3,
-    top = 0,
-    bottom = 0,
-  },
+  window_decorations = "RESIZE", -- disable the title bar but enable the resizable border
+  default_cursor_style = "BlinkingBar",
+  color_scheme = "Nord (Gogh)",
   background = {
     {
       source = {
-        File = "/Users/" .. os.getenv("USER") .. "/.config/wezterm/dark-desert.jpg",
+        File = "/Users/" .. os.getenv("USER") .. "/.config/wezterm/background.jpeg",
       },
       hsb = {
         hue = 1.0,
         saturation = 1.02,
-        brightness = 0.25,
+        brightness = 0.20,
       },
       -- attachment = { Parallax = 0.3 },
-      -- width = "100%",
+      width = "100%",
       -- height = "100%",
     },
     {
