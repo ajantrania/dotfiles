@@ -26,6 +26,24 @@ zstyle ':completion:*:*:git:*' script $HOME/.config/zsh/git-completion.bash
 fpath=($HOME/.config/zsh $fpath)
 autoload -Uz compinit && compinit
 
+# This section configures shell command history settings:
+# - HISTFILE specifies the file where history is saved (~/.zsh_history)
+# - HISTFILESIZE/HISTSIZE set maximum number of history entries to 1 billion
+# - INC_APPEND_HISTORY makes commands get written to history file immediately
+# - HISTTIMEFORMAT adds timestamps to history entries in [YYYY-MM-DD HH:MM:SS] format
+# - EXTENDED_HISTORY enables storing timestamps with history entries
+# - HIST_FIND_NO_DUPS prevents duplicate entries when searching history
+export HISTFILE=~/.zsh_history
+export HISTFILESIZE=1000000000
+export HISTSIZE=1000000000
+# Immediate Append
+setopt INC_APPEND_HISTORY
+export HISTTIMEFORMAT="[%F %T] "
+# Timestamps
+setopt EXTENDED_HISTORY
+# Skip dubs in history search
+setopt HIST_FIND_NO_DUPS
+
 # fzf
 [ -f "$HOME/.fzf.zsh" ] && source "$HOME/.fzf.zsh"
 
