@@ -12,6 +12,12 @@ config = {
   window_decorations = "RESIZE", -- disable the title bar but enable the resizable border
   default_cursor_style = "BlinkingBar",
   color_scheme = "Nord (Gogh)",
+  window_padding = {
+    left = 10,
+    right = 10,
+    top = 0,
+    bottom = 0,
+  },
   background = {
     {
       source = {
