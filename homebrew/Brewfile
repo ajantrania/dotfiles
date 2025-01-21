@@ -29,3 +29,5 @@ cask "font-symbols-only-nerd-font"
 cask "font-fira-mono-nerd-font"
 # GPU-accelerated cross-platform terminal emulator and multiplexer
 cask "wezterm"
+# Window Manger for macOS
+cask "nikitabobko/tap/aerospace"
