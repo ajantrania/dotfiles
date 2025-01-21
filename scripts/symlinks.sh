@@ -18,6 +18,7 @@ create_symlinks() {
 
     # Read dotfile links from the config file
     while IFS=: read -r source target || [ -n "$source" ]; do
+        info "Evaluating source: $source -> target: $target"
 
         # Skip empty or invalid lines in the config file
         if [[ -z "$source" || -z "$target" || "$source" == \#* ]]; then
@@ -60,7 +61,7 @@ delete_symlinks() {
     info "Deleting symbolic links..."
 
     while IFS=: read -r _ target || [ -n "$target" ]; do
-
+        info "Evaluating target: $target"
         # Skip empty and invalid lines
         if [[ -z "$target" ]]; then
             continue
@@ -69,12 +70,15 @@ delete_symlinks() {
         # Evaluate variables
         target=$(eval echo "$target")
 
-        # Check if the symbolic link or file exists
-        if [ -L "$target" ] || { [ "$include_files" == true ] && [ -f "$target" ]; }; then
+        # Check if the source exists (handling both files and directories)
+        source_no_slash=${source%/}  # Remove trailing slash if present
+
+        # Check if the target exists as a symlink, file, or directory
+        if [ -L "$target" ] || { [ "$include_files" == true ] && [ -e "$target" ]; }; then
             # Create backup directory if it doesn't exist
-            BACKUP_DIR="$SCRIPTS_DIR/../backup/$(date +%Y-%m-%d)"
+            BACKUP_DIR="$SCRIPT_DIR/../.backup/$(date +%Y-%m-%d)"
             mkdir -p "$BACKUP_DIR"
-            # Move the symbolic link or file to the backup directory
+            # Move the target to the backup directory
             mv "$target" "$BACKUP_DIR/"
             success "Moved to backup: $target"
         else
