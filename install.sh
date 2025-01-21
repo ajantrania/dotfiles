@@ -3,7 +3,6 @@
 . scripts/utils.sh
 . scripts/prerequisites.sh
 . scripts/brew-install-custom.sh
-. scripts/osx-defaults.sh
 . scripts/symlinks.sh
 
 info "Dotfiles intallation initialized..."
