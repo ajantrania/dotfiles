@@ -5,3 +5,5 @@ wezterm/*.jpg
 wezterm/*.png
 wezterm/*.jpeg
 work.zsh
+
+*private.zsh
