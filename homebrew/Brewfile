@@ -1,6 +1,4 @@
 tap "homebrew/bundle"
-tap "homebrew/cask"
-tap "homebrew/core"
 # Library for command-line editing
 brew "readline"
 # Official Amazon AWS command-line interface
@@ -9,8 +7,6 @@ brew "awscli"
 brew "fzf"
 # GNU compiler collection
 brew "gcc"
-# Fast, highly customisable system info script
-brew "neofetch"
 # Platform built on V8 to build network applications
 brew "node"
 # Python version management
