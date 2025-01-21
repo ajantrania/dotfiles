@@ -7,38 +7,10 @@ This repository contains my dotfiles, which are the config files and scripts I u
 ## Essential Tools
 
 - **Editor**: [NeoVim](https://neovim.io/). As a fallback, I have a basic standard [Vim](https://www.vim.org/) config that provides 80% of the functionality of my NeoVim setup without any dependencies for maximum portability and stability.
-- **Multiplexer**: [Tmux](https://github.com/tmux/tmux/wiki)
 - **Main Terminal**: [WezTerm](https://wezfurlong.org/wezterm/index.html)
 - **Shell Prompt**: [Starship](https://starship.rs/)
 - **Color Theme**: All themes are based on the [Nord color palette](https://www.nordtheme.com/docs/colors-and-palettes). Themes can be easily switched via environment variables set in `.zshenv`.
 - **Window Management**: [Rectangle](https://github.com/rxhanson/Rectangle) for resizing windows, paired with [Karabiner-Elements](https://karabiner-elements.pqrs.org/) for switching between applications.
-- **File Manager**: [Ranger](https://github.com/ranger/ranger)
-
-## Custom Window Management
-
-I'm not a fan of the default window management solutions that macOS provides, like repeatedly pressing Cmd+Tab to switch apps or using the mouse to click and drag. To streamline my workflow, I created a custom window management solution using [Karabiner-Elements](https://karabiner-elements.pqrs.org/) and [Rectangle](https://rectangleapp.com/). By using these tools together, I can efficiently manage my windows and switch apps with minimal mental overhead and maximum speed, using only my keyboard. Here's how it works:
-
-### Tab Key as Hyperkey
-
-The `Tab` key acts as a regular `Tab` when tapped, but when held, it provides additional functionalities.
-
-### Access Window Layer
-
-Holding `Tab + W` enables a window management layer, where other keys become shortcuts to resize the current window using Rectangle.
-
-**Examples:**
-
-- `Tab + W + H`: Resize window to the left half
-- `Tab + W + L`: Resize window to the right half
-
-### Access Exposé Layer
-
-Holding `Tab + E` enables an exposé layer, where other keys become shortcuts to open specific apps.
-
-**Examples:**
-
-- `Tab + E + J`: Open browser
-- `Tab + E + K`: Open terminal
 
 ## Setup
 

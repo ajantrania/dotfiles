@@ -71,9 +71,12 @@ delete_symlinks() {
 
         # Check if the symbolic link or file exists
         if [ -L "$target" ] || { [ "$include_files" == true ] && [ -f "$target" ]; }; then
-            # Remove the symbolic link or file
-            rm -rf "$target"
-            success "Deleted: $target"
+            # Create backup directory if it doesn't exist
+            BACKUP_DIR="$SCRIPTS_DIR/../backup/$(date +%Y-%m-%d)"
+            mkdir -p "$BACKUP_DIR"
+            # Move the symbolic link or file to the backup directory
+            mv "$target" "$BACKUP_DIR/"
+            success "Moved to backup: $target"
         else
             warning "Not found: $target"
         fi
