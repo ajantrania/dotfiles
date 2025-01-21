@@ -12,6 +12,8 @@ config = {
   window_decorations = "RESIZE", -- disable the title bar but enable the resizable border
   default_cursor_style = "BlinkingBar",
   color_scheme = "Nord (Gogh)",
+  font = wezterm.font("JetBrainsMono Nerd Font", { weight = "Regular" }),
+  font_size = 12.5,
   window_padding = {
     left = 10,
     right = 10,
