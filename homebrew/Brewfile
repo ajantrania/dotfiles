@@ -29,3 +29,6 @@ cask "font-fira-mono-nerd-font"
 cask "wezterm"
 # Window Manger for macOS
 cask "nikitabobko/tap/aerospace"
+# JankyBorders highlights the window in focus
+tap "FelixKratz/formulae"
+cask "borders"
