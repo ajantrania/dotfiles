@@ -7,8 +7,6 @@ brew "awscli"
 brew "fzf"
 # GNU compiler collection
 brew "gcc"
-# Platform built on V8 to build network applications
-brew "node"
 # Python version management
 brew "pyenv"
 # Fish-like fast/unobtrusive autosuggestions for zsh
