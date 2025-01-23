@@ -40,6 +40,7 @@ AEROSPACE_CURR_WORKSPACE=$(aerospace list-workspaces --focused)
 
 EMPTY_WORKSPACES=$(. "$PLUGIN_DIR/workspace_utils.sh" && get_empty_workspaces)
 
+# First loop for empty workspaces
 for sid in $AEROSPACE_WORKSPACES; do
   # is_active_background=$( [ "$sid" = "$AEROSPACE_CURR_WORKSPACE" ] && echo "on" || echo "off" )
   # # Check if current workspace is in empty workspaces list
@@ -69,6 +70,9 @@ for sid in $AEROSPACE_WORKSPACES; do
     background.height=20
     background.drawing=$is_active_background
     icon="$sid"
+    label.font="sketchybar-app-font:Regular:12.0"
+    label.padding_right=20
+    # label.padding_left=5
     label.drawing=off
     click_script="aerospace workspace $sid"
     script="$CONFIG_DIR/plugins/aerospace.sh $sid"
@@ -78,6 +82,31 @@ for sid in $AEROSPACE_WORKSPACES; do
   sketchybar --add item space.$sid left \
       --subscribe space.$sid aerospace_workspace_change \
       --set space.$sid "${props[@]}"
+done
+
+# Get non-empty workspaces by filtering out empty ones
+echo "$AEROSPACE_WORKSPACES" | tr ' ' '\n' | sort > /tmp/all_workspaces
+echo "$EMPTY_WORKSPACES" | tr ' ' '\n' | sort > /tmp/empty_workspaces
+NON_EMPTY_WORKSPACES=$(comm -23 /tmp/all_workspaces /tmp/empty_workspaces)
+rm /tmp/all_workspaces /tmp/empty_workspaces
+
+# Loop through non-empty workspaces to load icons
+for sid in $NON_EMPTY_WORKSPACES; do
+  echo "DEBUG: $sid"
+  apps=$(aerospace list-windows --workspace "$sid" | awk -F'|' '{gsub(/^ *| *$/, "", $2); print $2}')
+
+  # sketchybar --set space.$sid drawing=on
+
+  icon_strip=" "
+  if [ "${apps}" != "" ]; then
+    while read -r app; do
+      icon_strip+=" $($CONFIG_DIR/plugins/icon_map_fn.sh "$app")"
+    done <<<"${apps}"
+  else
+    icon_strip="-"
+  fi
+  echo "DEBUG: $sid $icon_strip"
+  sketchybar --set space.$sid drawing=on label="$icon_strip" label.drawing=on
 done
 
 ##### Adding Left Items #####
