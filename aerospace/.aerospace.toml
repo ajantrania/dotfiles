@@ -269,9 +269,9 @@ automatically-unhide-macos-hidden-apps = false
     run = ['move-node-to-workspace 1']
 
 # Amazon Connections
-# [[on-window-detected]]
-#     if.app-id = 'com.electron.amazonconnections'
-#     run = ['layout floating']
+[[on-window-detected]]
+    if.app-id = 'com.electron.amazonconnections'
+    run = ['layout floating']
 
 # 1 Password
 [[on-window-detected]]
