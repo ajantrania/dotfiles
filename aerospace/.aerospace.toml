@@ -225,6 +225,22 @@ automatically-unhide-macos-hidden-apps = false
     up = 'volume up'
     shift-down = ['volume set 0', 'mode main']
 
+    alt-1 = ['summon-workspace 1', 'mode main']
+    alt-2 = ['summon-workspace 2', 'mode main']
+    alt-3 = ['summon-workspace 3', 'mode main']
+    alt-4 = ['summon-workspace 4', 'mode main']
+    alt-5 = ['summon-workspace 5', 'mode main']
+    alt-6 = ['summon-workspace 6', 'mode main']
+    alt-7 = ['summon-workspace 7', 'mode main']
+    alt-8 = ['summon-workspace 8', 'mode main']
+    alt-9 = ['summon-workspace 9', 'mode main']
+    alt-b = ['summon-workspace B', 'mode main'] # Browser
+    alt-c = ['summon-workspace C', 'mode main'] # Code
+    alt-d = ['summon-workspace D', 'mode main'] # Docs
+    alt-m = ['summon-workspace M', 'mode main'] # Music
+    alt-v = ['summon-workspace V', 'mode main'] # Video Chat
+    alt-t = ['summon-workspace T', 'mode main'] # Terminal
+
 
 # [mode.join.binding]
 # h = ['join-with left', 'mode main']
