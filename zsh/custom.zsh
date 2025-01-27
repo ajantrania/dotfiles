@@ -32,6 +32,22 @@ zstyle ':completion:*:*:git:*' script $HOME/.config/zsh/git-completion.bash
 fpath=($HOME/.config/zsh $fpath)
 autoload -Uz compinit && compinit
 
+# ------------------------
+# Fix Keybindings
+#   Option +         Left/Right   - Word Traversal
+#   Option + Shift + Left/Right   - Line Traversal
+# ------------------------
+# WezTerm
+bindkey "^[[1;3D" backward-word
+bindkey "^[[1;3C" forward-word
+bindkey "^[[1;4D" beginning-of-line
+bindkey "^[[1;4C" end-of-line
+# VSCode Terminal
+bindkey "^[b" backward-word
+bindkey "^[f" forward-word
+bindkey "^[[1;4D" beginning-of-line
+bindkey "^[[1;4C" end-of-line
+
 # This section configures shell command history settings:
 # - HISTFILE specifies the file where history is saved (~/.zsh_history)
 # - HISTFILESIZE/HISTSIZE set maximum number of history entries to 1 billion
