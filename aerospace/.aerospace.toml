@@ -282,3 +282,8 @@ automatically-unhide-macos-hidden-apps = false
 [[on-window-detected]]
     if.app-id = 'com.apple.finder'
     run = ['layout floating']
+
+# IINA Video Player
+[[on-window-detected]]
+    if.app-id = 'com.colliderli.iina'
+    run = ['layout floating']
