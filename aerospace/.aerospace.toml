@@ -44,7 +44,7 @@ default-root-container-orientation = 'auto'
 # See https://nikitabobko.github.io/AeroSpace/guide#on-focus-changed-callbacks
 # See https://nikitabobko.github.io/AeroSpace/commands#move-mouse
 # Fallback value (if you omit the key): on-focused-monitor-changed = []
-on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+# on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 # on-focus-changed = "move-mouse window-lazy-center"
 
 # You can effectively turn off macOS "Hide application" (alt-h) feature by toggling this flag
@@ -253,20 +253,20 @@ automatically-unhide-macos-hidden-apps = false
 
 # Application Defaults
 
-# Spotify
-[[on-window-detected]]
-    if.app-id = 'com.spotify.client'
-    run = ['move-node-to-workspace M']
+# # Spotify
+# [[on-window-detected]]
+#     if.app-id = 'com.spotify.client'
+#     run = ['move-node-to-workspace M']
 
-# Slack
-[[on-window-detected]]
-    if.app-id = 'com.tinyspeck.slackmacgap'
-    run = ['move-node-to-workspace 1']
+# # Slack
+# [[on-window-detected]]
+#     if.app-id = 'com.tinyspeck.slackmacgap'
+#     run = ['move-node-to-workspace 1']
 
-# Amazon Chime
-[[on-window-detected]]
-    if.app-id = 'com.amazon.Amazon-Chime'
-    run = ['move-node-to-workspace 1']
+# # Amazon Chime
+# [[on-window-detected]]
+#     if.app-id = 'com.amazon.Amazon-Chime'
+#     run = ['move-node-to-workspace 1']
 
 # Amazon Connections
 [[on-window-detected]]
