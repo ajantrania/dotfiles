@@ -1,4 +1,6 @@
 #!/usr/bin/env sh
+source "$HOME/.config/sketchybar/colors.sh" # Loads all defined colors
+FONT="Hack Nerd Font" # Alternatives to try - "Terminess Nerd Font"
 
 PLUGIN_DIR="$CONFIG_DIR/plugins"
 
@@ -8,8 +10,22 @@ PLUGIN_DIR="$CONFIG_DIR/plugins"
 # https://felixkratz.github.io/SketchyBar/config/bar
 # If you are looking for other colors, see the color picker:
 # https://felixkratz.github.io/SketchyBar/config/tricks#color-picker
+bar=(
+  color=$BAR_COLOR
+  border_color=$SPACE_DESELECTED
+  border_width=0
+  shadow=off
+  sticky=on
+  height=25
+  y_offset=6
+  margin=6
+  padding_right=6
+  padding_left=6
+  blur_radius=64
+  corner_radius=10
+)
 
-sketchybar --bar position=top height=40 blur_radius=30 color=0x40000000
+sketchybar --bar "${bar[@]}"
 
 ##### Changing Defaults #####
 # We now change some default values, which are applied to all further items.
@@ -17,97 +33,31 @@ sketchybar --bar position=top height=40 blur_radius=30 color=0x40000000
 # https://felixkratz.github.io/SketchyBar/config/items
 
 default=(
-  padding_left=1
-  padding_right=1
-  icon.font="Hack Nerd Font:Bold:14.0"
-  label.font="Hack Nerd Font:Bold:14.0"
-  icon.color=0xffffffff
-  label.color=0xffffffff
-  icon.padding_left=2
-  icon.padding_right=4
-  label.padding_left=2
-  label.padding_right=2
-  updates=on
+  updates=when_shown
+  icon.font="$FONT:Regular:14.0"
+  icon.color=$ICON_COLOR
+  icon.padding_left=5
+  icon.padding_right=5
+
+  label.font="$FONT:Bold:14.0"
+  label.color=$LABEL_COLOR
+  label.padding_left=3
+  label.padding_right=3
+
+  background.height=22
+  background.corner_radius=6
+  background.padding_left=2
+  background.padding_right=2
 )
 sketchybar --default "${default[@]}"
 
 ##### Adding AeroSpace Workspace Indicators #####
-sketchybar --add event aerospace_workspace_change
+sketchybar --add event aerospace_workspace_change \
+           --add event window_focus \
+           --add event windows_on_spaces \
+           --add event title_change
 
-AEROSPACE_NUM_MONITORS=$(aerospace list-monitors | wc -l)
-AEROSPACE_WORKSPACES=$(aerospace list-workspaces --all)
-AEROSPACE_CURR_WORKSPACE=$(aerospace list-workspaces --focused)
-
-EMPTY_WORKSPACES=$(. "$PLUGIN_DIR/workspace_utils.sh" && get_empty_workspaces)
-
-# First loop for empty workspaces
-for sid in $AEROSPACE_WORKSPACES; do
-  # is_active_background=$( [ "$sid" = "$AEROSPACE_CURR_WORKSPACE" ] && echo "on" || echo "off" )
-  # # Check if current workspace is in empty workspaces list
-  # is_empty_workspace=$( [[ $EMPTY_WORKSPACES =~ (^|[[:space:]])$sid($|[[:space:]]) ]] && echo "off" || echo "on" )
-  # # Debug statement
-  # echo "Workspace $sid - Empty: $([[ $is_empty_workspace == "off" ]] && echo "yes" || echo "no")"
-
-  # # Initialize empty workspace properties
-  # empty_workspace_props=()
-  # if [[ $is_empty_workspace == "off" && $is_active_background == "off" ]]; then
-  #   empty_workspace_props=(
-  #     icon.drawing=off
-  #     label.drawing=off
-  #     padding_left=0
-  #     padding_right=0
-  #   )
-  # fi
-  is_active_background=$( [ "$sid" = "$AEROSPACE_CURR_WORKSPACE" ] && echo "on" || echo "off" )
-  is_empty_workspace=$(. "$PLUGIN_DIR/workspace_utils.sh" && is_workspace_empty "$sid" "$EMPTY_WORKSPACES")
-
-  # Initialize empty workspace properties
-  empty_workspace_props=($(. "$PLUGIN_DIR/workspace_utils.sh" && get_workspace_properties "$sid" "$is_empty_workspace" "$is_active_background"))
-
-  props=(
-    background.color=0x44ffffff
-    background.corner_radius=5
-    background.height=20
-    background.drawing=$is_active_background
-    icon="$sid"
-    label.font="sketchybar-app-font:Regular:12.0"
-    label.padding_right=20
-    # label.padding_left=5
-    label.drawing=off
-    click_script="aerospace workspace $sid"
-    script="$CONFIG_DIR/plugins/aerospace.sh $sid"
-    "${empty_workspace_props[@]}"
-  )
-
-  sketchybar --add item space.$sid left \
-      --subscribe space.$sid aerospace_workspace_change \
-      --set space.$sid "${props[@]}"
-done
-
-# Get non-empty workspaces by filtering out empty ones
-echo "$AEROSPACE_WORKSPACES" | tr ' ' '\n' | sort > /tmp/all_workspaces
-echo "$EMPTY_WORKSPACES" | tr ' ' '\n' | sort > /tmp/empty_workspaces
-NON_EMPTY_WORKSPACES=$(comm -23 /tmp/all_workspaces /tmp/empty_workspaces)
-rm /tmp/all_workspaces /tmp/empty_workspaces
-
-# Loop through non-empty workspaces to load icons
-for sid in $NON_EMPTY_WORKSPACES; do
-  echo "DEBUG: $sid"
-  apps=$(aerospace list-windows --workspace "$sid" | awk -F'|' '{gsub(/^ *| *$/, "", $2); print $2}')
-
-  # sketchybar --set space.$sid drawing=on
-
-  icon_strip=" "
-  if [ "${apps}" != "" ]; then
-    while read -r app; do
-      icon_strip+=" $($CONFIG_DIR/plugins/icon_map_fn.sh "$app")"
-    done <<<"${apps}"
-  else
-    icon_strip="-"
-  fi
-  echo "DEBUG: $sid $icon_strip"
-  sketchybar --set space.$sid drawing=on label="$icon_strip" label.drawing=on
-done
+source "$PLUGIN_DIR/aerospace.sh"
 
 ##### Adding Left Items #####
 # We add some regular items to the left side of the bar, where
