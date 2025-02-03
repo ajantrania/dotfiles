@@ -20,11 +20,12 @@ export DOCKER_HOST=unix://${HOME}/.docker/run/docker.sock
 export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
 # Check that the function `starship_zle-keymap-select()` is defined.
 # xref: https://github.com/starship/starship/issues/3418
-type starship_zle-keymap-select >/dev/null || \
-  {
-    echo "Load starship"
-    eval "$(starship init zsh)"
-  }
+if [[ "${widgets[zle-keymap-select]#user:}" == "starship_zle-keymap-select" || \
+      "${widgets[zle-keymap-select]#user:}" == "starship_zle-keymap-select-wrapped" ]]; then
+    zle -N zle-keymap-select "";
+fi
+
+eval "$(starship init zsh)"
 # starship config palette $STARSHIP_THEME
 
 # Load Git completion
