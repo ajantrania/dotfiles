@@ -3,15 +3,15 @@
 # Color Palette -- Catppuccin Macchiato
 export BLACK=0xff181926 #181926
 export WHITE=0xffcad3f5 #cad3f5
-#export RED=0xffed8796 #ed8796
-#export GREEN=0xffa6da95 #a6da95
-#export BLUE=0xff8aadf4 #8aadf4
-#export YELLOW=0xffeed49f #eed49f
+export RED=0xffed8796 #ed8796
+# export GREEN=0xffa6da95 #a6da95
+# export BLUE=0xff8aadf4 #8aadf4
+# export YELLOW=0xffeed49f # eed49f
 # export ORANGE=0xfff5a97f #f5a97f
 # export MAGENTA=0xffc6a0f6 #c6a0f6
 # export GREY=0xff939ab7 #939ab7
-#export SKY=0xff91d7e3 #91d7e3
-#export PINK=0xfff5bde6 #f5bde6
+# export SKY=0xff91d7e3 #91d7e3
+# export PINK=0xfff5bde6 #f5bde6
 # export TRANSPARENT=0x00000000
 
 # export ROSEWATER=0xFFf5e0dc #f5e0dc
@@ -31,15 +31,17 @@ export PEACH=0xFFfab387 #fab387
 
 # export WHITE=0xFFcdd6f4 #cdd6f4
 export DARK_WHITE=0xFF9399b2  #9399b2
+export BRIGHT_WHITE=0xFFE8ECFC #e8ecfc
 
 export ITEM_COLOR=0xff1e1e2e #1e1e2e
 # export ITEM_COLOR=$BLACK
 
 # General bar colors
 export BAR_COLOR=$DARK_WHITE
-export ICON_COLOR=$WHITE # Color of all icons
-export LABEL_COLOR=$WHITE # Color of all labels
+export ICON_COLOR=$BRIGHT_WHITE # Color of all icons
+export LABEL_COLOR=$BRIGHT_WHITE # Color of all labels
 export ALT_LABEL_COLOR=$WHITE
+export FRONT_APP_COLOR=$BRIGHT_WHITE
 
 export OPEN_APPS_BACKGROUND=$ITEM_COLOR
 # export CALENDAR_BACKGROUND=0xffb8c0e0

@@ -63,11 +63,25 @@ source "$PLUGIN_DIR/aerospace.sh"
 # We add some regular items to the left side of the bar, where
 # only the properties deviating from the current defaults need to be set
 
-sketchybar --add item chevron left \
-           --set chevron icon= label.drawing=off \
-           --add item front_app left \
-           --set front_app icon.drawing=off script="$PLUGIN_DIR/front_app.sh" \
-           --subscribe front_app front_app_switched
+front_app_props=(
+
+  icon.drawing=on
+  icon.padding_left=5
+  icon.padding_right=5
+  icon.color=$FRONT_APP_COLOR
+  icon.font="sketchybar-app-font:Regular:12.0"
+
+  label.drawing=on
+  label.padding_left=5
+  label.padding_right=20
+  label.color=$FRONT_APP_COLOR
+
+  script="$PLUGIN_DIR/front_app.sh"
+)
+
+sketchybar --add item front_app left \
+           --set front_app "${front_app_props[@]}" \
+           --subscribe front_app front_app_switched window_focus
 
 ##### Adding Right Items #####
 # In the same way as the left items we can add items to the right side.
