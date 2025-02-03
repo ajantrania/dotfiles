@@ -149,6 +149,7 @@ aerospace_workspace_change() {
         apps=$(aerospace list-windows --workspace "$sid" | awk -F'|' '{gsub(/^ *| *$/, "", $2); print $2}')
         icon_strip="-"
         if [ "${apps}" != "" ]; then
+            icon_strip=""
             while read -r app; do
             icon_strip+=" $($CONFIG_DIR/plugins/icon_map_fn.sh "$app")"
             done <<<"${apps}"
@@ -162,7 +163,7 @@ aerospace_workspace_change() {
 
             label.drawing=on
             label.padding_left=5
-            label.padding_right=20
+            label.padding_right=10
             label.color=$label_color
 
             background.drawing=on
