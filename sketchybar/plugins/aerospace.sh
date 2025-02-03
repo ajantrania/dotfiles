@@ -23,6 +23,9 @@ AEROSPACE_WORKSPACES=$(aerospace list-workspaces --all)
 AEROSPACE_EMPTY_WORKSPACES=""
 AEROSPACE_NON_EMPTY_WORKSPACES=""
 
+ANIMATION_DURATION="1"
+ANIMATION_TYPE="tanh"
+
 # Cache directory setup
 CACHE_DIR="/tmp/sketchybar"
 EMPTY_WORKSPACES_CACHE="$CACHE_DIR/empty_workspaces"
@@ -129,7 +132,7 @@ aerospace_workspace_change() {
 
         if [[ "$is_empty_workspace" == "$YES" && "$is_curr_workspace" == "$NO" ]]; then
             props=("${EMPTY_WORKSPACE_PROPS[@]}")
-            sketchybar --set space.$sid "${props[@]}" label=""
+            sketchybar --animate $ANIMATION_TYPE $ANIMATION_DURATION --set space.$sid "${props[@]}" label=""
             continue
         fi
 
@@ -167,7 +170,7 @@ aerospace_workspace_change() {
             background.padding_right=2
             background.color=$bg_color
         )
-        sketchybar --set space.$sid label="$icon_strip" ${props[@]}
+        sketchybar --animate $ANIMATION_TYPE $ANIMATION_DURATION --set space.$sid label="$icon_strip" ${props[@]}
     done
 }
 
