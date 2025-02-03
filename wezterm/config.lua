@@ -87,4 +87,11 @@ config = {
     },
   },
 }
+
+-- DEBUG Attempting to Disabling tmux configuration
+config.enable_wayland = false
+config.enable_kitty_graphics = false
+config.enable_kitty_keyboard = false
+config.term = "xterm-256color"
+
 return config
