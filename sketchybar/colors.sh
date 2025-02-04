@@ -31,14 +31,15 @@ export PEACH=0xFFfab387 #fab387
 export NAVY=0xFF1E66F5 #1E66F5
 
 # export WHITE=0xFFcdd6f4 #cdd6f4
-export DARK_WHITE=0xFF9399b2  #9399b2
+# export DARK_WHITE=0xFF9399b2  #9399b2
+export DARK_WHITE_SEMI_TRANSPARENT=0x999399b2  #9399b2
 export BRIGHT_WHITE=0xFFE8ECFC #e8ecfc
 
 export ITEM_COLOR=0xff1e1e2e #1e1e2e
 # export ITEM_COLOR=$BLACK
 
 # General bar colors
-export BAR_COLOR=$DARK_WHITE
+export BAR_COLOR=$DARK_WHITE_SEMI_TRANSPARENT
 export ICON_COLOR=$BRIGHT_WHITE # Color of all icons
 export LABEL_COLOR=$BRIGHT_WHITE # Color of all labels
 export ALT_LABEL_COLOR=$WHITE
