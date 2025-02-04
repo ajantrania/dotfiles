@@ -17,10 +17,10 @@ bar=(
   shadow=off
   sticky=on
   height=30
-  y_offset=6
-  margin=6
-  padding_right=6
-  padding_left=6
+  y_offset=0
+  margin=0
+  padding_right=12
+  padding_left=12
   blur_radius=64
   corner_radius=10
 )
