@@ -2,6 +2,8 @@ export AWS_SDK_LOAD_CONFIG=1
 export AWS_PROFILE=dev
 export AWS_REGION=us-west-2
 
+export PATH=$HOME/.toolbox/bin:$PATH
+
 ###############################################################################
 #                                 AI Git
 ###############################################################################
