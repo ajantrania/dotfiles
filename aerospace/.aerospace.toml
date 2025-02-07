@@ -273,6 +273,11 @@ automatically-unhide-macos-hidden-apps = false
     if.app-id = 'com.electron.amazonconnections'
     run = ['layout floating']
 
+# Amazon ACME
+[[on-window-detected]]
+    if.app-id = 'com.amazon.ACME'
+    run = ['layout floating']
+
 # 1 Password
 [[on-window-detected]]
     if.app-id = 'com.1password.1password'
