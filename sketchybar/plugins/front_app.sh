@@ -56,7 +56,7 @@ get_windows() {
           click_script="aerospace focus --window-id $window_id" \
           "${props[@]}"
 
-    done < <(aerospace list-windows --workspace visible --json | \
+    done < <(aerospace list-windows --workspace $current_workspace --json | \
          jq -r '.[] | [.["app-name"], .["window-title"], .["window-id"]] | @tsv')
 }
 
