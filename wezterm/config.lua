@@ -86,6 +86,13 @@ config = {
       format = "mailto:$0",
     },
   },
+  keys = {
+    {
+      key = 'w',
+      mods = 'CMD',
+      action = wezterm.action.CloseCurrentTab { confirm = true },
+    },
+  }
 }
 
 -- DEBUG Attempting to Disabling tmux configuration
@@ -93,5 +100,8 @@ config.enable_wayland = false
 config.enable_kitty_graphics = false
 config.enable_kitty_keyboard = false
 config.term = "xterm-256color"
+
+config.enable_csi_u_key_encoding = true
+config.mouse_reporting = false
 
 return config
