@@ -81,7 +81,7 @@ front_app_props=(
 
 sketchybar --add item front_app left \
            --set front_app "${front_app_props[@]}" \
-           --subscribe front_app front_app_switched window_focus
+           --subscribe front_app front_app_switched window_focus mouse.entered mouse.exited mouse.exited.global mouse.clicked
 
 ##### Adding Right Items #####
 # In the same way as the left items we can add items to the right side.
