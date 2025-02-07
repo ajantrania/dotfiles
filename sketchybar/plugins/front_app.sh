@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 source "$HOME/.config/sketchybar/colors.sh" # Loads all defined colors
 FONT="Hack Nerd Font"
+TIMER_PID_FILE="/tmp/sketchybar_popup_timer.pid"
 
 # Define default properties as an array
 declare -a DEFAULT_POPUP_PROPS=(
@@ -23,9 +24,29 @@ declare -a DEFAULT_POPUP_PROPS=(
     background.height=30
 )
 
+kill_timer() {
+    if [ -f "$TIMER_PID_FILE" ]; then
+        pid=$(cat "$TIMER_PID_FILE")
+        if kill -0 "$pid" 2>/dev/null; then
+            kill "$pid"
+        fi
+        rm "$TIMER_PID_FILE"
+    fi
+}
+
+start_timer() {
+    kill_timer  # Kill any existing timer first
+    {
+        sleep 5
+        sketchybar --set front_app popup.drawing=off
+        rm "$TIMER_PID_FILE"
+    } &
+    echo $! > "$TIMER_PID_FILE"
+}
+
 get_windows() {
   current_app="$INFO"
-
+  current_workspace=$(aerospace list-workspaces --focused)
   max_width=0
 
   # Process all window information in a single jq call
@@ -71,7 +92,21 @@ update_front_app() {
 }
 
 popup() {
-  sketchybar --set "$NAME" popup.drawing="$1"
+    if [ "$1" = "toggle" ]; then
+        if [ "$(sketchybar --query front_app | jq -r '.popup.drawing')" = "true" ]; then
+            popup off
+        else
+            popup on
+        fi
+    else
+        if [ "$1" = "on" ]; then
+            sketchybar --set "$NAME" popup.drawing="$1"
+            start_timer
+        else
+            sketchybar --set "$NAME" popup.drawing="$1"
+            kill_timer
+        fi
+    fi
 }
 
 case "$SENDER" in
