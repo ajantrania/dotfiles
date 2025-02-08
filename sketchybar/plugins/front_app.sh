@@ -44,9 +44,19 @@ start_timer() {
     echo $! > "$TIMER_PID_FILE"
 }
 
+unset CURRENT_APP
+get_current_app() {
+  if [ -z "${CURRENT_APP}" ]; then
+    CURRENT_APP=$(aerospace list-windows --focused --json | jq -r '.[0]."app-name"')
+  fi
+  echo "$CURRENT_APP"
+}
+
 get_windows() {
-  current_app="$INFO"
+  current_app="$(get_current_app)"
+
   current_workspace=$(aerospace list-workspaces --focused)
+
   max_width=0
 
   # Process all window information in a single jq call
@@ -82,9 +92,12 @@ get_windows() {
 }
 
 update_front_app() {
-  app_icon="$($CONFIG_DIR/plugins/icon_map_fn.sh $INFO)"
+  current_app="$(get_current_app)"
+  app_icon="$($CONFIG_DIR/plugins/icon_map_fn.sh $current_app)"
+
   monitor_id="$(aerospace list-monitors --focused --json | jq '.[0]."monitor-id"')"
-  sketchybar --set "$NAME" icon="$app_icon" label="$INFO" \
+
+  sketchybar --set "$NAME" icon="$app_icon" label="$current_app" \
              --set monitor label="󰍹 $monitor_id"
 
   # Remove any items in the popup
@@ -121,7 +134,7 @@ case "$SENDER" in
 "mouse.clicked")
   popup toggle
   ;;
-"front_app_switched")
+"front_app_switched" | "aerospace_workspace_change")
     update_front_app
   ;;
 esac
