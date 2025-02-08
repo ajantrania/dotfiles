@@ -79,7 +79,8 @@ front_app_props=(
   script="$PLUGIN_DIR/front_app.sh"
 )
 
-sketchybar --add item front_app left \
+sketchybar --add item monitor left \
+           --add item front_app left \
            --set front_app "${front_app_props[@]}" \
            --subscribe front_app front_app_switched window_focus mouse.entered mouse.exited mouse.exited.global mouse.clicked
 
