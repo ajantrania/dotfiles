@@ -83,7 +83,9 @@ get_windows() {
 
 update_front_app() {
   app_icon="$($CONFIG_DIR/plugins/icon_map_fn.sh $INFO)"
-  sketchybar --set "$NAME" icon="$app_icon" label="$INFO"
+  monitor_id="$(aerospace list-monitors --focused --json | jq '.[0]."monitor-id"')"
+  sketchybar --set "$NAME" icon="$app_icon" label="$INFO" \
+             --set monitor label="󰍹 $monitor_id"
 
   # Remove any items in the popup
   sketchybar --remove /fa_popup.*/ >>/dev/null
