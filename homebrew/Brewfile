@@ -32,3 +32,5 @@ cask "nikitabobko/tap/aerospace"
 # JankyBorders highlights the window in focus
 tap "FelixKratz/formulae"
 cask "borders"
+# MAC CLI to switch audio sources
+brew "switchaudio-osx"

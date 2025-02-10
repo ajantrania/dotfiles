@@ -95,8 +95,19 @@ sketchybar --add item monitor left \
 # volume is registered. More info about the event system can be found here:
 # https://felixkratz.github.io/SketchyBar/config/events
 
+headphones_props=(
+  update_freq=5
+  icon=󰋋
+  label.drawing=off
+  script="$PLUGIN_DIR/headphones.sh"
+  click_script="SwitchAudioSource -n && SwitchAudioSource -s WH-1000XM5"
+)
+
 sketchybar --add item clock right \
            --set clock update_freq=10 icon=  script="$PLUGIN_DIR/clock.sh" \
+           --add item headphones right \
+           --set headphones "${headphones_props[@]}" \
+           --subscribe headphones volume_change \
            --add item volume right \
            --set volume script="$PLUGIN_DIR/volume.sh" \
            --subscribe volume volume_change \
