@@ -39,7 +39,7 @@ default=(
   icon.padding_left=5
   icon.padding_right=5
 
-  label.font="$FONT:Bold:14.0"
+  label.font="$FONT:Regular:14.0"
   label.color=$LABEL_COLOR
   label.padding_left=3
   label.padding_right=3
