@@ -6,19 +6,19 @@ TIMER_PID_FILE="/tmp/sketchybar_popup_timer.pid"
 # Define default properties as an array
 declare -a DEFAULT_POPUP_PROPS=(
     icon.font=sketchybar-app-font:Regular:12.0
-    icon.color=$SPACE_ICON_SELECTED
+    icon.color=$FRONT_APP_POPUP_ICON
     icon.drawing=on
     icon.padding_left=5
     icon.padding_right=0
 
     label.drawing=on
     label.font="$FONT:Regular:14.0"
-    label.color=$SPACE_LABEL_SELECTED
+    label.color=$FRONT_APP_POPUP_LABEL
     label.padding_left=5
     label.padding_right=10
 
     background.drawing=on
-    background.color=$SPACE_SELECTED
+    background.color=$FRONT_APP_POPUP_BACKGROUND
     background.padding_left=0
     background.padding_right=0
     background.height=30
@@ -67,8 +67,8 @@ get_windows() {
       if [ "$app_name" = "$current_app" ]; then
         props=(
           "${DEFAULT_POPUP_PROPS[@]}"
-          label.color=$WINDOW_LABEL_SELECTED
-          icon.color=$WINDOW_ICON_SELECTED
+          label.color=$POPUP_SELECTED_LABEL
+          icon.color=$POPUP_SELECTED_ICON
         )
       else
         props=(

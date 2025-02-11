@@ -79,13 +79,13 @@ front_app_props=(
   icon.drawing=on
   icon.padding_left=5
   icon.padding_right=5
-  icon.color=$FRONT_APP_COLOR
+  icon.color=$FRONT_APP_ICON
   icon.font="sketchybar-app-font:Regular:12.0"
 
   label.drawing=on
   label.padding_left=5
   label.padding_right=20
-  label.color=$FRONT_APP_COLOR
+  label.color=$FRONT_APP_LABEL
 
   script="$PLUGIN_DIR/front_app.sh"
 )

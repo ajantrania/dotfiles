@@ -8,8 +8,9 @@ export MIDNIGHT_BLUE=0xFF13294B   #0x13294B
 
 # Supporting Colors
 export WHITE=0xFFE1E3E9           #0xE1E3E9
-export WARM_GRAY=0xFF9CA0B0       #9CA0B0
+export WARM_GRAY=0xFF9CA0B0       #0x9CA0B0
 export DARK_INK=0xFF1F2133        #0x1F2133
+export SHADOW_GRAY=0xCC1E2030     #0x1E2030
 
 #################### Bar Colors ######################
 export BAR_COLOR=$SHADOW_GRAY
@@ -17,9 +18,15 @@ export ICON_COLOR=$WHITE
 export LABEL_COLOR=$WHITE
 
 #################### Front App Colors ################
-export FRONT_APP_COLOR=$WHITE
-export WINDOW_ICON_SELECTED=$MIDNIGHT_BLUE
-export WINDOW_LABEL_SELECTED=$MIDNIGHT_BLUE
+export FRONT_APP_ICON=$WHITE
+export FRONT_APP_LABEL=$WHITE
+
+export FRONT_APP_POPUP_BACKGROUND=$MIDNIGHT_BLUE
+export FRONT_APP_POPUP_ICON=$WARM_GRAY
+export FRONT_APP_POPUP_LABEL=$WARM_GRAY
+
+export POPUP_SELECTED_ICON=$ORANGE
+export POPUP_SELECTED_LABEL=$ORANGE
 
 #################### Space Colors ####################
 export SPACE_SELECTED=$ORANGE
