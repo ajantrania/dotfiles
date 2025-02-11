@@ -3,6 +3,11 @@ source "$HOME/.config/sketchybar/colors.sh" # Loads all defined colors
 FONT="Hack Nerd Font"
 TIMER_PID_FILE="/tmp/sketchybar_popup_timer.pid"
 
+POPUP_TIMER=10
+
+MAX_TITLE_LENGTH=70
+BACKGROUND_LENGTH=700
+
 # Define default properties as an array
 declare -a DEFAULT_POPUP_PROPS=(
     icon.font=sketchybar-app-font:Regular:12.0
@@ -22,6 +27,7 @@ declare -a DEFAULT_POPUP_PROPS=(
     background.padding_left=0
     background.padding_right=0
     background.height=30
+    width=$BACKGROUND_LENGTH
 )
 
 kill_timer() {
@@ -37,7 +43,7 @@ kill_timer() {
 start_timer() {
     kill_timer  # Kill any existing timer first
     {
-        sleep 5
+        sleep $POPUP_TIMER
         sketchybar --set front_app popup.drawing=off
         rm "$TIMER_PID_FILE"
     } &

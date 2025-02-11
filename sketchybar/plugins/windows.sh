@@ -3,9 +3,16 @@ source "$HOME/.config/sketchybar/colors.sh"
 FONT="Hack Nerd Font"
 TIMER_PID_FILE="/tmp/sketchybar_windows_popup_timer.pid"
 
+POPUP_TIMER=60
+ANIMATION_TYPE=sin
+ANIMATION_TIME=20
+
+MAX_TITLE_LENGTH=70
+BACKGROUND_LENGTH=700
+
 # Define default properties for the popup items
 declare -a DEFAULT_POPUP_PROPS=(
-    width=600
+    width=$BACKGROUND_LENGTH
     padding_left=0
     padding_right=0
     background.padding_left=0
@@ -59,11 +66,21 @@ kill_timer() {
 start_timer() {
     kill_timer  # Kill any existing timer first
     {
-        sleep 60
+        sleep $POPUP_TIMER
         sketchybar --set windows popup.drawing=off
         rm "$TIMER_PID_FILE"
     } &
     echo $! > "$TIMER_PID_FILE"
+}
+
+trim_text() {
+    local text="$1"
+    local max_length="$2"
+    if [ ${#text} -gt "$max_length" ]; then
+        echo "${text:0:$max_length}..."
+    else
+        echo "$text"
+    fi
 }
 
 create_windows_popup() {
@@ -92,7 +109,7 @@ create_windows_popup() {
                 monitor_props=("${MONITOR_2_HEADER_PROPS[@]}")
             fi
 
-            sketchybar --animate sin 30 --add item "windows.popup.monitor.$monitor_id.workspace.$workspace" popup.windows \
+            sketchybar --animate $ANIMATION_TYPE $ANIMATION_TIME --add item "windows.popup.monitor.$monitor_id.workspace.$workspace" popup.windows \
                       --set "windows.popup.monitor.$monitor_id.workspace.$workspace" \
                            icon="$monitor_label Workspace $workspace" \
                            "${DEFAULT_POPUP_PROPS[@]}" \
@@ -111,10 +128,13 @@ create_windows_popup() {
                 window_title=$(echo "$window" | jq -r '."window-title"')
                 app_icon="$($CONFIG_DIR/plugins/icon_map_fn.sh "$app_name")"
 
-                sketchybar --animate sin 30 --add item "windows.popup.$window_id" popup.windows \
+                # Trim the window title if it's too long
+                trimmed_title=$(trim_text "$window_title" $MAX_TITLE_LENGTH)
+
+                sketchybar --animate $ANIMATION_TYPE $ANIMATION_TIME --add item "windows.popup.$window_id" popup.windows \
                           --set "windows.popup.$window_id" \
                                icon="$app_icon" \
-                               label="$app_name - $window_title" \
+                               label="$app_name - $trimmed_title" \
                                click_script="aerospace focus --window-id $window_id" \
                                "${DEFAULT_POPUP_PROPS[@]}" \
                                "${WINDOW_ITEM_PROPS[@]}"
@@ -139,7 +159,7 @@ popup() {
             start_timer
         else
             if [ "$(sketchybar --query windows | jq -r '.popup.drawing')" = "on" ]; then
-              sketchybar --animate sin 30 --set windows popup.drawing=off
+              sketchybar --animate $ANIMATION_TYPE $ANIMATION_TIME --set windows popup.drawing=off
               kill_timer
             fi
         fi
