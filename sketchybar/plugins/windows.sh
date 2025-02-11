@@ -111,7 +111,7 @@ create_windows_popup() {
 
             sketchybar --animate $ANIMATION_TYPE $ANIMATION_TIME --add item "windows.popup.monitor.$monitor_id.workspace.$workspace" popup.windows \
                       --set "windows.popup.monitor.$monitor_id.workspace.$workspace" \
-                           icon="$monitor_label Workspace $workspace" \
+                           icon="$monitor_label  󰏞 Workspace $workspace" \
                            "${DEFAULT_POPUP_PROPS[@]}" \
                            "${WORKSPACE_HEADER_PROPS[@]}" \
                            "${monitor_props[@]}"
