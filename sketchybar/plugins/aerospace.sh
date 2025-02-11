@@ -117,11 +117,26 @@ aerospace_workspace_change() {
     update_workspaces_status
     AEROSPACE_CURR_WORKSPACE=$(aerospace list-workspaces --focused)
 
+    # Debug: Check if there are 2 monitors
+    AEROSPACE_ALT_MONITOR_WORKSPACE=$NO
+    if [[ "$AEROSPACE_NUM_MONITORS" -eq 2 ]]; then
+      # Debug: Get alternate monitor ID and workspace
+      AEROSPACE_ALT_MONITOR=$(aerospace list-monitors --focused no --format %{monitor-id})
+      AEROSPACE_ALT_MONITOR_WORKSPACE=$(aerospace list-workspaces --monitor $AEROSPACE_ALT_MONITOR --visible)
+    fi
+
     for sid in $AEROSPACE_WORKSPACES; do
         if [ "$sid" = "$AEROSPACE_CURR_WORKSPACE" ]; then
             is_curr_workspace=$YES
         else
             is_curr_workspace=$NO
+        fi
+
+        # Set is_alt_monitor_workspace = (!is_curr_workspace && $sid === $AEROSPACE_ALT_MONITOR_WORKSPACE)
+        if [[ "$is_curr_workspace" == "$NO" && "$sid" == "$AEROSPACE_ALT_MONITOR_WORKSPACE" ]]; then
+            is_alt_monitor_workspace=$YES
+        else
+            is_alt_monitor_workspace=$NO
         fi
 
         if is_workspace_empty "$sid"; then
@@ -144,6 +159,10 @@ aerospace_workspace_change() {
             bg_color=$SPACE_SELECTED
             icon_color=$SPACE_ICON_SELECTED
             label_color=$SPACE_LABEL_SELECTED
+        elif [[ "$is_alt_monitor_workspace" == "$YES" ]]; then
+            bg_color=$SPACE_ALT_SELECTED
+            icon_color=$SPACE_ALT_ICON_SELECTED
+            label_color=$SPACE_ALT_LABEL_SELECTED
         fi
 
         apps=$(aerospace list-windows --workspace "$sid" | awk -F'|' '{gsub(/^ *| *$/, "", $2); print $2}')
