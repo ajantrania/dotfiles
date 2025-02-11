@@ -20,7 +20,7 @@ bar=(
   y_offset=0
   margin=0
   padding_right=17
-  padding_left=17
+  padding_left=10
   blur_radius=64
   corner_radius=10
 )
