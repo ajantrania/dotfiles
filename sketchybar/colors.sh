@@ -71,3 +71,14 @@ export SPACE_LABEL_DESELECTED=$WHITE
 
 export WINDOW_ICON_SELECTED=$NAVY
 export WINDOW_LABEL_SELECTED=$NAVY
+
+
+
+#################### Windows Colors ####################
+export MONITOR_1_BACKGROUND=$PEACH
+export MONITOR_1_LABEL=$NAVY
+export MONITOR_1_ICON=$NAVY
+
+export MONITOR_2_BACKGROUND=$NAVY
+export MONITOR_2_LABEL=$PEACH
+export MONITOR_2_ICON=$PEACH
