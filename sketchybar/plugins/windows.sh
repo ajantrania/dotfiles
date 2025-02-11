@@ -36,14 +36,14 @@ declare -a MONITOR_2_HEADER_PROPS=(
 
 declare -a WINDOW_ITEM_PROPS=(
     icon.font="sketchybar-app-font:Regular:13.0"
-    icon.color=$SPACE_ICON_DESELECTED
+    icon.color=$WINDOW_ITEM_ICON
     icon.padding_left=10
     icon.padding_right=5
     label.font="$FONT:Bold:12.0"
-    label.color=$SPACE_LABEL_DESELECTED
+    label.color=$WINDOW_ITEM_LABEL
     label.padding_left=0
     label.padding_right=5
-    background.color=$SPACE_DESELECTED
+    background.color=$WINDOW_ITEM_BACKGROUND
 )
 
 kill_timer() {
