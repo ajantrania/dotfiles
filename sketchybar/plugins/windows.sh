@@ -171,6 +171,10 @@ case "$SENDER" in
     popup off
     ;;
 "mouse.clicked")
-    popup toggle
+    if [ "$MODIFIER" = "cmd" ]; then
+        sketchybar --reload
+    else
+        popup toggle
+    fi
     ;;
 esac
