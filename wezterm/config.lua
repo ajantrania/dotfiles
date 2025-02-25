@@ -102,6 +102,6 @@ config.enable_kitty_keyboard = false
 config.term = "xterm-256color"
 
 config.enable_csi_u_key_encoding = true
-config.mouse_reporting = false
+-- config.mouse_reporting = false
 
 return config
