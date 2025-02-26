@@ -114,7 +114,7 @@ update_front_app() {
 
 popup() {
     if [ "$1" = "toggle" ]; then
-        if [ "$(sketchybar --query front_app | jq -r '.popup.drawing')" = "true" ]; then
+        if [ "$(sketchybar --query front_app | jq -r '.popup.drawing')" = "on" ]; then
             popup off
         else
             popup on
