@@ -1,0 +1,13 @@
+# Add the VPN item before the volume item
+sketchybar --add item vpn right \
+           --set vpn script="$PLUGIN_DIR/vpn.sh" \
+                    update_freq=15 \
+                    icon.font="$FONT:Regular:16.0" \
+                    icon.padding_right=5 \
+                    background.height=26 \
+                    background.padding_right=5 \
+                    click_script="$PLUGIN_DIR/vpn.sh" \
+           --subscribe vpn mouse.clicked
+
+# Reorder items to ensure VPN is between battery and volume
+sketchybar --reorder right "battery" "vpn" "volume"
