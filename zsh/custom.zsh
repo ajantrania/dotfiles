@@ -1,6 +1,11 @@
 # Homebrew
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
+# Load Git completion
+zstyle ':completion:*:*:git:*' script $HOME/.config/zsh/git-completion.bash
+fpath=($HOME/.config/zsh $fpath)
+autoload -Uz compinit && compinit
+
 # Pipenv
 export PIPENV_VENV_IN_PROJECT=1
 
@@ -8,6 +13,9 @@ export PIPENV_VENV_IN_PROJECT=1
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)" # Initialize pyenv when a new shell spawns
+
+# Created by `pipx`
+export PATH="$PATH:/Users/ajantrania/.local/bin"
 
 # NVM
 export NVM_DIR="$HOME/.nvm"
@@ -27,11 +35,6 @@ fi
 
 eval "$(starship init zsh)"
 # starship config palette $STARSHIP_THEME
-
-# Load Git completion
-zstyle ':completion:*:*:git:*' script $HOME/.config/zsh/git-completion.bash
-fpath=($HOME/.config/zsh $fpath)
-autoload -Uz compinit && compinit
 
 # ------------------------
 # Fix Keybindings
