@@ -1,3 +1,5 @@
+# Amazon Q pre block. Keep at the top of this file.
+[[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh"
 # zsh Options
 setopt HIST_IGNORE_ALL_DUPS
 
@@ -21,3 +23,6 @@ if [ "$SYSTEM_TYPE" = "aws-work" ]; then
 elif [ "$SYSTEM_TYPE" = "personal" ]; then
     [ -f "$HOME/.config/zsh/aws-personal.zsh" ] && source "$HOME/.config/zsh/aws-personal.zsh"
 fi
+
+# Amazon Q post block. Keep at the bottom of this file.
+[[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh"
