@@ -7,3 +7,7 @@ wezterm/*.jpeg
 work.zsh
 
 *private.zsh
+
+# Sketchybar cache
+sketchybar/cache/*
+sketchybar/cache/

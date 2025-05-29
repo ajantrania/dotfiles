@@ -117,7 +117,7 @@ headphones_props=(
 vpn_props=(
   script="$PLUGIN_DIR/vpn.sh"
   update_freq=15
-  label.drawing=off
+  label.y_offset=2
   icon.padding_right=0
   click_script="$PLUGIN_DIR/vpn.sh"
 )
