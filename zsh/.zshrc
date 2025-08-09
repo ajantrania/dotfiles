@@ -27,7 +27,7 @@ fi
 # Amazon Q post block. Keep at the bottom of this file.
 [[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh"
 
-. "$HOME/.local/share/../bin/env"
+. "$HOME/.config/zsh/add-local-bin.sh"
 
 [[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path zsh)"
 # The following lines have been added by Docker Desktop to enable Docker CLI completions.
