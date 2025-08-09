@@ -16,6 +16,12 @@ brew "zsh-syntax-highlighting"
 brew "starship"
 # GitHub CLI
 brew "gh"
+# Kubernetes package manager
+brew "helm"
+# k3s in docker for local kubernetes development
+brew "k3d"
+# General-purpose programming language designed for robustness, optimality, and maintainability
+brew "zig"
 # App to build and share containerized applications and microservices
 cask "docker"
 cask "docker-desktop"
