@@ -38,3 +38,5 @@ brew "borders"
 brew "switchaudio-osx"
 # Claude Code CLI for AI-powered coding assistance
 cask "claude-code"
+# Code formatter for JavaScript, TypeScript, CSS, and more
+brew "prettier"
