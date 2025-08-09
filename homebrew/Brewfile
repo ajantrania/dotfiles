@@ -16,6 +16,7 @@ brew "zsh-syntax-highlighting"
 brew "starship"
 # App to build and share containerized applications and microservices
 cask "docker"
+cask "docker-desktop"
 # Developer targeted fonts with a high number of glyphs
 cask "font-hack-nerd-font"
 # Developer targeted fonts with a high number of glyphs
