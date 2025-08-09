@@ -1,0 +1,3 @@
+[submodule "dependencies/sketchybar-app-font"]
+	path = dependencies/sketchybar-app-font
+	url = https://github.com/kvndrsslr/sketchybar-app-font.git
