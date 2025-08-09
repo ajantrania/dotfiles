@@ -27,6 +27,8 @@ cask "font-symbols-only-nerd-font"
 cask "font-fira-mono-nerd-font"
 # GPU-accelerated cross-platform terminal emulator and multiplexer
 cask "wezterm"
+# Rust-based terminal with AI features
+cask "warp"
 # Window Manger for macOS
 cask "nikitabobko/tap/aerospace"
 # JankyBorders highlights the window in focus
@@ -34,3 +36,5 @@ tap "FelixKratz/formulae"
 cask "borders"
 # MAC CLI to switch audio sources
 brew "switchaudio-osx"
+# Claude Code CLI for AI-powered coding assistance
+cask "claude-code"
