@@ -20,6 +20,8 @@ brew "gh"
 brew "helm"
 # k3s in docker for local kubernetes development
 brew "k3d"
+# Highly customizable macOS status bar replacement
+brew "sketchybar"
 # General-purpose programming language designed for robustness, optimality, and maintainability
 brew "zig"
 # App to build and share containerized applications and microservices
