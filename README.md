@@ -2,15 +2,34 @@
 
 This repository contains my dotfiles, which are the config files and scripts I use to customize my development environment. These files help me maintain a consistent setup across different machines and save time when setting up new environments.
 
-![screenshot](img/nvim-demo.png)
-
 ## Essential Tools
 
-- **Editor**: [NeoVim](https://neovim.io/). As a fallback, I have a basic standard [Vim](https://www.vim.org/) config that provides 80% of the functionality of my NeoVim setup without any dependencies for maximum portability and stability.
-- **Main Terminal**: [WezTerm](https://wezfurlong.org/wezterm/index.html)
-- **Shell Prompt**: [Starship](https://starship.rs/)
-- **Color Theme**: All themes are based on the [Nord color palette](https://www.nordtheme.com/docs/colors-and-palettes). Themes can be easily switched via environment variables set in `.zshenv`.
-- **Window Management**: [Rectangle](https://github.com/rxhanson/Rectangle) for resizing windows, paired with [Karabiner-Elements](https://karabiner-elements.pqrs.org/) for switching between applications.
+- **Terminals**: 
+  - [Warp](https://www.warp.dev/) - Rust-based terminal with AI features (primary)
+  - [WezTerm](https://wezfurlong.org/wezterm/index.html) - GPU-accelerated terminal (fallback/alternative)
+- **Shell**: Zsh with enhanced configuration including system identification and environment-specific setups
+- **Shell Prompt**: [Starship](https://starship.rs/) - Cross-shell prompt for astronauts
+- **Window Management**: [AeroSpace](https://github.com/nikitabobko/AeroSpace) - Tiling window manager for macOS
+- **Status Bar**: [SketchyBar](https://felixkratz.github.io/SketchyBar/) - Highly customizable macOS status bar with:
+  - Workspace indicators with app icons
+  - System monitoring (CPU, battery, volume)
+  - VPN status tracking with geolocation
+  - Window management controls
+- **Window Highlighting**: [JankyBorders](https://github.com/FelixKratz/JankyBorders) - Highlights the focused window
+- **Development**: 
+  - [Claude Code](https://www.anthropic.com/claude) - AI-powered coding assistant
+  - Standard [Vim](https://www.vim.org/) configuration for maximum portability
+  - Git completion and enhanced Git workflow
+- **Cloud & DevOps**: AWS CLI with environment-specific configurations (personal/work separation)
+
+## Features
+
+- **Environment Detection**: Automatic system identification for work/personal environment separation
+- **AWS Integration**: Separate AWS configurations for work and personal accounts
+- **VPN Monitoring**: Real-time VPN status with geolocation caching
+- **Application Icons**: Custom icon mapping system for 200+ applications in SketchyBar
+- **Modular Configuration**: Clean separation of concerns with individual config files
+- **Smart Workspace Management**: AeroSpace integration with SketchyBar for seamless workflow
 
 ## Setup
 
@@ -20,7 +39,13 @@ To set up these dotfiles on your system, run:
 ./install.sh
 ```
 
-Then follow the on-screen prompts.
+The installer will:
+1. Install prerequisites (Xcode CLI tools, Homebrew)
+2. Install applications and tools via Homebrew
+3. Create symbolic links for all configuration files
+4. Apply macOS system defaults
+
+Follow the on-screen prompts to customize the installation.
 
 ## Uninstalling
 
@@ -34,16 +59,46 @@ To delete all symlinks created by the installation script, run:
 
 This will remove the symlinks but will not delete the actual configuration files, allowing you to easily revert to your previous configuration if needed.
 
+## Configuration Structure
+
+```
+├── aerospace/          # AeroSpace window manager config
+├── dependencies/       # External dependencies (sketchybar-app-font)
+├── homebrew/          # Homebrew package definitions
+├── iterm/             # iTerm2 profiles and preferences
+├── scripts/           # Installation and utility scripts
+├── sketchybar/        # SketchyBar configuration and plugins
+├── starship/          # Starship prompt configuration
+├── vim/               # Vim configuration
+├── wezterm/           # WezTerm configuration (legacy)
+├── zsh/               # Zsh configuration with environment separation
+└── symlinks.conf      # Symbolic link definitions
+```
+
+## Key Components
+
+### SketchyBar Plugins
+- **Aerospace Integration**: Workspace switching and window management
+- **System Monitoring**: Battery, volume, clock, CPU usage
+- **Network**: VPN status with geolocation and caching
+- **Application Tracking**: Shows running apps with custom icons
+
+### Environment Management
+- **System Identification**: Automatic detection of work/personal environments
+- **AWS Configurations**: Separate setups for different AWS accounts
+- **Git Completion**: Enhanced Git workflow with autocompletion
+
 ## Adding New Dotfiles and Software
 
 ### Dotfiles
 
-When adding new dotfiles to this repository, follow these steps:
-
-1. Place your dotfile in the appropriate location within the repository.
-2. Update the `symlinks_config.conf` file to include the symlink creation for your new dotfile.
-3. If necessary, update the `install.sh` script to set up the software.
+1. Place your dotfile in the appropriate directory within the repository
+2. Update the `symlinks.conf` file to include the symlink mapping
+3. Test the symlink creation with `./scripts/symlinks.sh --create`
 
 ### Software Installation
 
-Software is installed using Homebrew. To add a formula or cask, update the `homebrew/Brewfile` and run `./scripts/brew_install_custom.sh`. If you need to install a specific version of a package, find its Ruby script in the commit history of an official Homebrew GitHub repository and place it in the `homebrew/custom-casks/` or `homebrew/custom-formulae/` directory, depending on whether it's a cask or formula.
+Software is managed via Homebrew:
+1. Add formulas/casks to `homebrew/Brewfile`
+2. Run `./scripts/brew-install-custom.sh` or the full installer
+3. For custom versions, place Ruby scripts in `homebrew/custom-casks/` or `homebrew/custom-formulae/`
