@@ -7,13 +7,12 @@ end
 
 config = {
   automatically_reload_config = true,
-  hide_tab_bar_if_only_one_tab = true,
   window_close_confirmation = "NeverPrompt",
-  window_decorations = "RESIZE", -- disable the title bar but enable the resizable border
+  window_decorations = "INTEGRATED_BUTTONS | RESIZE",
   default_cursor_style = "BlinkingBar",
   color_scheme = "Nord (Gogh)",
   font = wezterm.font("JetBrainsMono Nerd Font", { weight = "Regular" }),
-  font_size = 12.5,
+  font_size = 10,
   window_padding = {
     left = 10,
     right = 10,
@@ -92,7 +91,9 @@ config = {
       mods = 'CMD',
       action = wezterm.action.CloseCurrentTab { confirm = true },
     },
-  }
+  },
+  initial_cols = 120,
+  initial_rows = 30
 }
 
 -- DEBUG Attempting to Disabling tmux configuration
