@@ -33,6 +33,8 @@ cask "font-jetbrains-mono-nerd-font"
 cask "font-symbols-only-nerd-font"
 # Developer targeted fonts with a high number of glyphs
 cask "font-fira-mono-nerd-font"
+# Developer targeted fonts with a high number of glyphs
+cask "font-fira-code-nerd-font"
 # GPU-accelerated cross-platform terminal emulator and multiplexer
 cask "wezterm"
 # Rust-based terminal with AI features
