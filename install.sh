@@ -5,6 +5,9 @@
 . scripts/brew-install-custom.sh
 . scripts/symlinks.sh
 
+echo "Initializing git submodules..."
+git submodule update --init --recursive
+
 info "Dotfiles intallation initialized..."
 read -p "Install apps? [y/n] " install_apps
 read -p "Overwrite existing dotfiles? [y/n] " overwrite_dotfiles
@@ -26,6 +29,14 @@ if [[ "$install_apps" == "y" ]]; then
     install_custom_formulae
     install_custom_casks
     run_brew_bundle
+
+    echo "Building sketchybar-app-font..."
+    cd dependencies/sketchybar-app-font
+    if [ -f "package.json" ]; then
+        npm install
+        npm run build:install -- ../../sketchybar/plugins/icon_map_fn.sh
+    fi
+    cd ../..
 fi
 
 printf "\n"
