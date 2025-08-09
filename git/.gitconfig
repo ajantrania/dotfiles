@@ -1,0 +1,77 @@
+[user]
+	name = Apurva Jantrania
+	email = jmareel@gmail.com
+[alias]
+	co = checkout
+    st = status
+    ci = checkin
+    lg = log -p
+    l = log --graph --pretty=format:'%Cred%h%Creset - %Cblue%an%Creset - %C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
+    la = log --graph --pretty=format:'%Cred%h%Creset - %Cblue%an%Creset - %C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative --all
+    sha = rev-parse --short HEAD
+
+    # Branch cleanup workflow - use "git bdone" after merging PRs
+    # Works best with GitHub's "Automatically delete head branches" to be enabled
+
+    # Lists local branches whose remotes have been deleted ("gone" branches)
+    gone = "!git for-each-ref --format='%(refname:short) %(upstream:track)' refs/heads/ | awk '$2 == \"[gone]\" { print $1 }'"
+
+    # Deletes all gone branches (use after git gone to preview)
+    bclean = "!git gone | xargs -r git branch -D"
+
+    # Gets the default branch name (main/master/etc)
+    default = "!git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@'"
+
+    # Updates current branch with remote changes
+    up = "!git remote update -p; git merge --ff-only @{u}"
+
+    # MAIN COMMAND: Switches to default branch, updates it, and cleans gone branches
+    # Usage: "git bdone" after merging any PR - handles complete cleanup workflow
+    bdone = "!f() { DEFAULT=$(git default); git checkout ${1:-$DEFAULT} && git up && git bclean; }; f"
+[apply]
+	whitespace = nowarn
+[color]
+    branch = auto
+    diff = auto
+    status = auto
+[color "branch"]
+    current = yellow reverse
+    local = yellow
+    remote = green
+[color "diff"]
+    meta = yellow bold
+    frag = magenta bold
+    old = red bold
+    new = green bold
+[color "status"]
+    added = yellow
+    changed = green
+    untracked = cyan
+[core]
+	excludesfile = ~/.gitignore_global
+	editor = code --wait
+	pager = less -FX
+[difftool "sourcetree"]
+	cmd = code --wait --diff $LOCAL $REMOTE
+	path =
+[mergetool "sourcetree"]
+	cmd = code --wait $MERGED
+	trustExitCode = true
+[commit]
+	template = ~/.stCommitMsg
+[fetch]
+	prune = true
+[merge]
+    tool = vscode
+[mergetool "vscode"]
+    cmd = code --wait $MERGED
+[diff]
+    tool = vscode
+[difftool "vscode"]
+    cmd = code --wait --diff $LOCAL $REMOTE
+[credential]
+	helper = store
+[pull]
+	ff = only
+[push]
+	autoSetupRemote = true
