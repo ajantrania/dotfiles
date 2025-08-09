@@ -22,6 +22,10 @@ brew "helm"
 brew "k3d"
 # Highly customizable macOS status bar replacement
 brew "sketchybar"
+# Display directories as trees (with optional color/HTML output)
+brew "tree"
+# Search tool like grep and The Silver Searcher
+brew "ripgrep"
 # General-purpose programming language designed for robustness, optimality, and maintainability
 brew "zig"
 # App to build and share containerized applications and microservices
