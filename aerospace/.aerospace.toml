@@ -252,35 +252,19 @@ automatically-unhide-macos-hidden-apps = false
 
 
 # Application Defaults
-
-# # Spotify
-# [[on-window-detected]]
-#     if.app-id = 'com.spotify.client'
-#     run = ['move-node-to-workspace M']
-
-# # Slack
-# [[on-window-detected]]
-#     if.app-id = 'com.tinyspeck.slackmacgap'
-#     run = ['move-node-to-workspace 1']
-
-# # Amazon Chime
-# [[on-window-detected]]
-#     if.app-id = 'com.amazon.Amazon-Chime'
-#     run = ['move-node-to-workspace 1']
-
-# Amazon Connections
-[[on-window-detected]]
-    if.app-id = 'com.electron.amazonconnections'
-    run = ['layout floating']
-
-# Amazon ACME
-[[on-window-detected]]
-    if.app-id = 'com.amazon.ACME'
-    run = ['layout floating']
-
 # 1 Password
 [[on-window-detected]]
     if.app-id = 'com.1password.1password'
+    run = ['layout floating']
+
+# Activity Monitor
+[[on-window-detected]]
+    if.app-id = 'com.apple.ActivityMonitor'
+    run = ['layout floating']
+
+# Docker Desktop
+[[on-window-detected]]
+    if.app-id = 'com.electron.dockerdesktop'
     run = ['layout floating']
 
 # Finder
