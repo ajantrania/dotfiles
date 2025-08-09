@@ -1,10 +1,15 @@
 # Homebrew
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
+# Load zsh-autocomplete for fuzzy matching (must be before compinit)
+source /opt/homebrew/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+
 # Load Git completion
 zstyle ':completion:*:*:git:*' script $HOME/.config/zsh/git-completion.bash
 fpath=($HOME/.config/zsh $fpath)
-autoload -Uz compinit && compinit
+
+# compinit is now handled by zsh-autocomplete
+# autoload -Uz compinit && compinit
 
 # Pipenv
 export PIPENV_VENV_IN_PROJECT=1
@@ -109,4 +114,4 @@ source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 
 # Set default AWS Profile
-export AWS_PROFILE=apurva-admin
+export AWS_PROFILE=archodex-apurva-AdministratorAccess
