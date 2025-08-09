@@ -12,6 +12,8 @@ brew "pyenv"
 brew "zsh-autosuggestions"
 # Fish shell like syntax highlighting for zsh
 brew "zsh-syntax-highlighting"
+# Real-time type-ahead completion for Zsh
+brew "zsh-autocomplete"
 # Cross-shell prompt for astronauts
 brew "starship"
 # GitHub CLI
