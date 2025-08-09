@@ -33,7 +33,7 @@ cask "warp"
 cask "nikitabobko/tap/aerospace"
 # JankyBorders highlights the window in focus
 tap "FelixKratz/formulae"
-cask "borders"
+brew "borders"
 # MAC CLI to switch audio sources
 brew "switchaudio-osx"
 # Claude Code CLI for AI-powered coding assistance
