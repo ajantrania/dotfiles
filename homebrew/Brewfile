@@ -58,3 +58,6 @@ brew "switchaudio-osx"
 cask "claude-code"
 # Code formatter for JavaScript, TypeScript, CSS, and more
 brew "prettier"
+# Fast JavaScript runtime, bundler, test runner and package manager
+tap "oven-sh/bun"
+brew "bun"
