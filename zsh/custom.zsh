@@ -4,6 +4,28 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 # Load zsh-autocomplete for fuzzy matching (must be before compinit)
 source /opt/homebrew/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 
+# Configure zsh-autocomplete to show menu instead of auto-selecting
+bindkey '\t' menu-select
+bindkey "$terminfo[kcbt]" menu-select
+zstyle ':autocomplete:*complete*:*' insert-unambiguous yes
+
+# Disable grouping by type (show files and directories together)
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*:descriptions' format ''
+
+# Enable color coding for files and directories
+# Setup colors for macOS BSD ls (different from GNU ls)
+export CLICOLOR=1
+export LSCOLORS='ExGxBxDxCxEgEdxbxgxcxd'
+# Convert BSD LSCOLORS to GNU LS_COLORS format for zsh completion
+export LS_COLORS='di=1;34:ln=1;36:so=1;31:pi=1;33:ex=1;32:bd=1;34;46:cd=1;34;43:su=0;41:sg=0;46:tw=0;42:ow=0;43'
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+
+# Show completions more compactly (multiple per line, like ls -C)
+zstyle ':completion:*' list-packed true
+# Remove the separator line between completions
+zstyle ':completion:*' list-separator ''
+
 # Load Git completion
 zstyle ':completion:*:*:git:*' script $HOME/.config/zsh/git-completion.bash
 fpath=($HOME/.config/zsh $fpath)
