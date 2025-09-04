@@ -241,6 +241,10 @@ automatically-unhide-macos-hidden-apps = false
     alt-v = ['summon-workspace V', 'mode main'] # Video Chat
     alt-t = ['summon-workspace T', 'mode main'] # Terminal
 
+    # Allow cycling through workspaces
+    alt-right = 'workspace next --wrap-around'
+    alt-left = 'workspace prev --wrap-around'
+
 
 # [mode.join.binding]
 # h = ['join-with left', 'mode main']
