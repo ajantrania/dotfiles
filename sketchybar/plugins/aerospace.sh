@@ -91,11 +91,26 @@ init_aerospace() {
         --subscribe $monitor_name aerospace_workspace_change \
         --set $monitor_name "${props[@]}"
 
-    # Initialize all workspaces
+    # Initialize all workspaces and assign them to their respective displays
     for sid in $AEROSPACE_WORKSPACES; do
+        # Determine which monitor this workspace belongs to
+        workspace_monitor=""
+        for monitor_id in $(aerospace list-monitors --format %{monitor-id}); do
+            monitor_workspaces=$(aerospace list-workspaces --monitor $monitor_id)
+            if echo "$monitor_workspaces" | grep -q "^$sid$"; then
+                workspace_monitor=$monitor_id
+                break
+            fi
+        done
+
+        # Map aerospace monitor ID to sketchybar display ID (1-based index)
+        # Aerospace uses 1-based indexing that matches sketchybar
+        display_id=$workspace_monitor
+
         props=(
             icon="$sid"
             "${EMPTY_WORKSPACE_PROPS[@]}"
+            display=$display_id  # Assign to specific display
 
             # Default values for spaces that dont change
             background.corner_radius=5
@@ -115,29 +130,20 @@ init_aerospace() {
 
 aerospace_workspace_change() {
     update_workspaces_status
-    AEROSPACE_CURR_WORKSPACE=$(aerospace list-workspaces --focused)
 
-    # Debug: Check if there are 2 monitors
-    AEROSPACE_ALT_MONITOR_WORKSPACE=$NO
-    if [[ "$AEROSPACE_NUM_MONITORS" -eq 2 ]]; then
-      # Debug: Get alternate monitor ID and workspace
-      AEROSPACE_ALT_MONITOR=$(aerospace list-monitors --focused no --format %{monitor-id})
-      AEROSPACE_ALT_MONITOR_WORKSPACE=$(aerospace list-workspaces --monitor $AEROSPACE_ALT_MONITOR --visible)
-    fi
+    # Get all visible workspaces (one per monitor)
+    AEROSPACE_VISIBLE_WORKSPACES=$(aerospace list-workspaces --monitor all --visible)
 
     for sid in $AEROSPACE_WORKSPACES; do
-        if [ "$sid" = "$AEROSPACE_CURR_WORKSPACE" ]; then
-            is_curr_workspace=$YES
-        else
-            is_curr_workspace=$NO
-        fi
+        is_visible_workspace=$NO
 
-        # Set is_alt_monitor_workspace = (!is_curr_workspace && $sid === $AEROSPACE_ALT_MONITOR_WORKSPACE)
-        if [[ "$is_curr_workspace" == "$NO" && "$sid" == "$AEROSPACE_ALT_MONITOR_WORKSPACE" ]]; then
-            is_alt_monitor_workspace=$YES
-        else
-            is_alt_monitor_workspace=$NO
-        fi
+        # Check if this workspace is visible on any monitor
+        for visible_ws in $AEROSPACE_VISIBLE_WORKSPACES; do
+            if [ "$sid" = "$visible_ws" ]; then
+                is_visible_workspace=$YES
+                break
+            fi
+        done
 
         if is_workspace_empty "$sid"; then
             is_empty_workspace=$YES
@@ -145,7 +151,7 @@ aerospace_workspace_change() {
             is_empty_workspace=$NO
         fi
 
-        if [[ "$is_empty_workspace" == "$YES" && "$is_curr_workspace" == "$NO" ]]; then
+        if [[ "$is_empty_workspace" == "$YES" && "$is_visible_workspace" == "$NO" ]]; then
             props=("${EMPTY_WORKSPACE_PROPS[@]}")
             sketchybar --animate $ANIMATION_TYPE $ANIMATION_DURATION --set space.$sid "${props[@]}" label=""
             continue
@@ -155,14 +161,10 @@ aerospace_workspace_change() {
         icon_color=$SPACE_ICON_DESELECTED
         label_color=$SPACE_LABEL_DESELECTED
 
-        if [[ "$is_curr_workspace" == "$YES" ]]; then
+        if [[ "$is_visible_workspace" == "$YES" ]]; then
             bg_color=$SPACE_SELECTED
             icon_color=$SPACE_ICON_SELECTED
             label_color=$SPACE_LABEL_SELECTED
-        elif [[ "$is_alt_monitor_workspace" == "$YES" ]]; then
-            bg_color=$SPACE_ALT_SELECTED
-            icon_color=$SPACE_ALT_ICON_SELECTED
-            label_color=$SPACE_ALT_LABEL_SELECTED
         fi
 
         apps=$(aerospace list-windows --workspace "$sid" | awk -F'|' '{gsub(/^ *| *$/, "", $2); print $2}')
