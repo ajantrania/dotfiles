@@ -25,7 +25,7 @@ style = 'bold fg:dark_blue'
 format = '[$path ]($style)'
 truncation_length = 3
 truncation_symbol = '…/'
-truncate_to_repo = false
+truncate_to_repo = true
 
 [directory.substitutions]
 'Documents' = '󰈙'
@@ -35,7 +35,7 @@ truncate_to_repo = false
 
 [git_branch]
 style = 'fg:green'
-symbol = ' '
+symbol = ''
 format = '[on](white) [$symbol$branch ]($style)'
 
 [git_status]
@@ -59,25 +59,31 @@ symbol = ' '
 [nodejs]
 style = 'blue'
 symbol = ' '
+format = '[$symbol($version )]($style)'
 
 [golang]
 style = 'blue'
 symbol = ' '
+format = '[$symbol($version )]($style)'
 
 [haskell]
 style = 'blue'
 symbol = ' '
+format = '[$symbol($version )]($style)'
 
 [rust]
 style = 'orange'
 symbol = ' '
+format = '[$symbol($version )]($style)'
 
 [ruby]
 style = 'blue'
 symbol = ' '
+format = '[$symbol($version )]($style)'
 
 [package]
 symbol = '󰏗 '
+format = '[$symbol($version )]($style)'
 
 [aws]
 symbol = ' '
@@ -97,6 +103,12 @@ eu-central-1 = 'FRA'
 ap-northeast-1 = 'NRT'
 ap-northeast-2 = 'ICN'
 ap-northeast-3 = 'KIX'
+
+[aws.profile_aliases]
+"archodex-apurva-AdministratorAccess" = "A.apurva-Admin"
+"archodex-dev-AdministratorAccess" = "A.dev-Admin"
+"archodex-dev-cd1-AdministratorAccess" = "A.dev-cd1-Admin"
+"archodex-dev-cd2-AdministratorAccess" = "A.dev-cd2-Admin"
 
 [docker_context]
 symbol = ' '
