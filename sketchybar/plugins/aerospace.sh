@@ -30,6 +30,7 @@ ANIMATION_TYPE="tanh"
 CACHE_DIR="/tmp/sketchybar"
 EMPTY_WORKSPACES_CACHE="$CACHE_DIR/empty_workspaces"
 NON_EMPTY_WORKSPACES_CACHE="$CACHE_DIR/non_empty_workspaces"
+WORKSPACE_MONITOR_CACHE="$CACHE_DIR/workspace_monitors"
 mkdir -p "$CACHE_DIR"
 
 # Helper Functions
@@ -80,6 +81,9 @@ is_workspace_empty() {
 
 init_aerospace() {
     update_workspaces_status;
+    
+    # Add custom event for workspace monitor moves
+    sketchybar --add event workspace_moved_monitor
 
     # Initialize a listener for Aerospace updates so only that is called once per workspace change
     props=(
@@ -88,20 +92,16 @@ init_aerospace() {
     )
     monitor_name="space.aerospace_monitor"
     sketchybar --add item $monitor_name left \
-        --subscribe $monitor_name aerospace_workspace_change \
+        --subscribe $monitor_name aerospace_workspace_change workspace_moved_monitor \
         --set $monitor_name "${props[@]}"
 
+    # Initialize or update workspace-to-monitor mappings
+    update_workspace_monitors
+    
     # Initialize all workspaces and assign them to their respective displays
     for sid in $AEROSPACE_WORKSPACES; do
-        # Determine which monitor this workspace belongs to
-        workspace_monitor=""
-        for monitor_id in $(aerospace list-monitors --format %{monitor-id}); do
-            monitor_workspaces=$(aerospace list-workspaces --monitor $monitor_id)
-            if echo "$monitor_workspaces" | grep -q "^$sid$"; then
-                workspace_monitor=$monitor_id
-                break
-            fi
-        done
+        # Get monitor for this workspace from cache
+        workspace_monitor=$(grep "^$sid:" "$WORKSPACE_MONITOR_CACHE" | cut -d: -f2)
 
         # Map aerospace monitor ID to sketchybar display ID (1-based index)
         # Aerospace uses 1-based indexing that matches sketchybar
@@ -120,7 +120,7 @@ init_aerospace() {
         )
 
         sketchybar --add item space.$sid left \
-            --subscribe space.$sid aerospace_workspace_change \
+            --subscribe space.$sid aerospace_workspace_change workspace_moved_monitor \
             --set space.$sid "${props[@]}"
     done
 
@@ -128,13 +128,49 @@ init_aerospace() {
 }
 
 
+# Update workspace-monitor mappings
+update_workspace_monitors() {
+    local force_update="${1:-false}"
+    
+    # Check if number of monitors changed (disconnection/connection)
+    current_num_monitors=$(aerospace list-monitors | wc -l)
+    if [ -f "$WORKSPACE_MONITOR_CACHE" ]; then
+        cached_num_monitors=$(grep -o ':[0-9]*$' "$WORKSPACE_MONITOR_CACHE" | sort -u | wc -l)
+        if [ "$current_num_monitors" -ne "$cached_num_monitors" ]; then
+            rm -f "$WORKSPACE_MONITOR_CACHE"  # Invalidate cache if monitor count changed
+        fi
+    fi
+    
+    # Update if forced, cache is old, or doesn't exist
+    if [ "$force_update" = "true" ] || [ ! -f "$WORKSPACE_MONITOR_CACHE" ] || [ $(( $(date +%s) - $(stat -f %m "$WORKSPACE_MONITOR_CACHE") )) -gt 5 ]; then
+        > "$WORKSPACE_MONITOR_CACHE"
+        for monitor_id in $(aerospace list-monitors --format %{monitor-id}); do
+            monitor_workspaces=$(aerospace list-workspaces --monitor $monitor_id)
+            for ws in $monitor_workspaces; do
+                echo "$ws:$monitor_id" >> "$WORKSPACE_MONITOR_CACHE"
+            done
+        done
+    fi
+}
+
 aerospace_workspace_change() {
     update_workspaces_status
+    
+    # Use cached mappings unless explicitly moving monitors
+    update_workspace_monitors  # Use cache for regular workspace changes
 
     # Get all visible workspaces (one per monitor)
     AEROSPACE_VISIBLE_WORKSPACES=$(aerospace list-workspaces --monitor all --visible)
 
     for sid in $AEROSPACE_WORKSPACES; do
+        # Get the current monitor for this workspace from cache
+        workspace_monitor=$(grep "^$sid:" "$WORKSPACE_MONITOR_CACHE" 2>/dev/null | cut -d: -f2)
+        
+        # Update display assignment if monitor changed
+        if [ -n "$workspace_monitor" ]; then
+            sketchybar --set space.$sid display=$workspace_monitor
+        fi
+        
         is_visible_workspace=$NO
 
         # Check if this workspace is visible on any monitor
@@ -199,7 +235,16 @@ aerospace_workspace_change() {
 case "$SENDER" in
   "forced") exit 0
   ;;
-  "aerospace_workspace_change") aerospace_workspace_change
+  "aerospace_workspace_change") 
+    aerospace_workspace_change
+  ;;
+  "workspace_moved_monitor")
+    # Force update when workspace is explicitly moved between monitors
+    update_workspace_monitors true
+    aerospace_workspace_change
+  ;;
+  "refresh") 
+    aerospace_workspace_change
   ;;
   *) init_aerospace
   ;;
