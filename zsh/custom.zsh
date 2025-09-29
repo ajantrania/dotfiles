@@ -136,7 +136,3 @@ ZSH_HIGHLIGHT_STYLES[path_prefix]=none
 
 # Activate autosuggestions
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-
-
-# Set default AWS Profile
-export AWS_PROFILE=archodex-apurva-AdministratorAccess
