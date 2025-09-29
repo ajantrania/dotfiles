@@ -10,13 +10,17 @@ SYSTEM_TYPE="personal"
 
 # Identify system type based on hostname and other characteristics
 case $HOSTNAME in
-    # Personal machine - you can add more patterns for your personal machines
+    # Personal machine
     "home-"*|"personal-"*)
         SYSTEM_TYPE="personal"
         ;;
-    # AWS work laptop - you can add more patterns for AWS work laptops
-    "aws"*|"work"*)
-        SYSTEM_TYPE="aws-work"
+    # # AWS work laptop
+    # "aws"*|"work"*)
+    #     SYSTEM_TYPE="aws-work"
+    #     ;;
+    # Archodex Work Laptop
+    "work-aj-mbp"*)
+        SYSTEM_TYPE="archodex-work"
         ;;
     # Add more cases for future work laptops or systems
     *)
@@ -30,4 +34,4 @@ esac
 export SYSTEM_TYPE
 
 # Optional: Print the detected system type
-# echo "Detected system type: $SYSTEM_TYPE"
+echo "Detected system type: $SYSTEM_TYPE"
