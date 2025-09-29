@@ -48,6 +48,9 @@ export PATH="$PATH:/Users/ajantrania/.local/bin"
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
+# LLVM
+export LIBCLANG_PATH="/opt/homebrew/opt/llvm/lib"
+
 # Configure Docker socket path for Docker Desktop on macOS
 export DOCKER_HOST=unix://${HOME}/.docker/run/docker.sock
 
