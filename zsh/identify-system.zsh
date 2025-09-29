@@ -34,4 +34,4 @@ esac
 export SYSTEM_TYPE
 
 # Optional: Print the detected system type
-echo "Detected system type: $SYSTEM_TYPE"
+# echo "Detected system type: $SYSTEM_TYPE"

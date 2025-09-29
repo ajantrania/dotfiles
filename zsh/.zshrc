@@ -17,7 +17,9 @@ setopt HIST_IGNORE_ALL_DUPS
 # [ -f "$HOME/.config/zsh/stackery.zsh" ] && source "$HOME/.config/zsh/stackery.zsh"
 
 # AWS work configurations
-if [ "$SYSTEM_TYPE" = "aws-work" ]; then
+if [ "$SYSTEM_TYPE" = "archodex-work" ]; then
+    [ -f "$HOME/.config/zsh/archodex.zsh" ] && source "$HOME/.config/zsh/archodex.zsh"
+elif [ "$SYSTEM_TYPE" = "aws-work" ]; then
     [ -f "$HOME/.config/zsh/aws-work.zsh" ] && source "$HOME/.config/zsh/aws-work.zsh"
     [ -f "$HOME/.config/zsh/aws-work-private.zsh" ] && source "$HOME/.config/zsh/aws-work-private.zsh"
 elif [ "$SYSTEM_TYPE" = "personal" ]; then
