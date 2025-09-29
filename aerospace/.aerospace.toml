@@ -276,6 +276,11 @@ automatically-unhide-macos-hidden-apps = false
     if.app-id = 'com.apple.finder'
     run = ['layout floating']
 
+# Google Meet
+[[on-window-detected]]
+    if.app-name-regex-substring = 'Google Meet'
+    run = ['layout floating']
+
 # IINA Video Player
 [[on-window-detected]]
     if.app-id = 'com.colliderli.iina'
