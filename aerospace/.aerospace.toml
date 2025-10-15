@@ -10,7 +10,7 @@ after-login-command = []
 # 'after-startup-command' is run after 'after-login-command'
 # Available commands : https://nikitabobko.github.io/AeroSpace/commands
 after-startup-command = [
-    'exec-and-forget borders active_color=0xFFfab387 inactive_color=0xff494d64 width=7.0 hidpi=on',
+    'exec-and-forget borders active_color=0xFFFA8F69 inactive_color=0xff494d64 width=7.0 hidpi=on',
     'exec-and-forget sketchybar'
 ]
 
@@ -111,10 +111,10 @@ automatically-unhide-macos-hidden-apps = false
     alt-comma = 'layout accordion horizontal vertical'
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#focus
-    alt-h = 'focus left'
-    alt-j = 'focus down'
-    alt-k = 'focus up'
-    alt-l = 'focus right'
+    alt-h = 'focus left --boundaries-action wrap-around-the-workspace'
+    alt-j = 'focus down --boundaries-action wrap-around-the-workspace'
+    alt-k = 'focus up --boundaries-action wrap-around-the-workspace'
+    alt-l = 'focus right --boundaries-action wrap-around-the-workspace'
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#move
     alt-shift-h = 'move left'
