@@ -1,0 +1,228 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+die() { echo "git-worktree: $*" >&2; exit 1; }
+info() { echo "[git-worktree] $*" >&2; }
+
+# call the real git binary (avoid function/alias shadowing)
+GIT="command git"
+
+normalize_branch_name() {
+  printf "%s" "$1" | tr '/:@ ' '----' | sed -E 's/[^A-Za-z0-9._-]+/-/g; s/^-+|-+$//g'
+}
+repo_root() { $GIT rev-parse --show-toplevel 2>/dev/null; }
+repo_name() { basename "$(repo_root)"; }
+worktree_exists() {
+  local p="$1"
+  $GIT worktree list --porcelain 2>/dev/null | awk '/^worktree /{print $2}' | grep -Fxq "$p"
+}
+
+usage() {
+  cat >&2 <<'USAGE'
+Usage:
+  git-worktree branch <branch|pr-123> [remote]
+  git-worktree remove <path|branch|pr-123> [--force] [--dry-run] [--repo <name>]
+  git-worktree prune [--dry-run] [--gone] [--force]
+  git-worktree <other-subcommand> [args...]   # pass-through to `git worktree`
+
+Examples:
+  git-worktree branch pr-482
+  git-worktree branch feature/xyz
+  git-worktree remove pr-482 --force
+  git-worktree prune --gone
+
+Tip: If you tried `git-worktree pr-9`, use:
+     `git-worktree branch pr-9`
+USAGE
+}
+
+cmd_branch() {
+  local input="${1:-}" remote_opt="${2:-}"
+  [ -n "$input" ] || die "Usage: git-worktree branch <branch|pr-123> [remote]"
+
+  local rr rn parent_dir remote real_branch norm_branch target_dir
+  rr="$(repo_root)" || die "Not in a git repo."
+  rn="$(repo_name)"
+  parent_dir="$(dirname "$rr")"
+
+  # pick remote: explicit > upstream > origin
+  if [ -n "${remote_opt}" ]; then
+    remote="${remote_opt}"
+  elif $GIT remote get-url upstream &>/dev/null; then
+    remote="upstream"
+  else
+    remote="origin"
+  fi
+
+  # handle PR shorthand: pr-123 or pr/123
+  if [[ "$input" =~ ^pr[-/]([0-9]+)$ ]]; then
+    local prnum="${BASH_REMATCH[1]}"
+    local pr_template="${GIT_WORKTREE_PR_REF_TEMPLATE:-refs/pull/%d/head}"
+    info "Fetching PR #$prnum from $remote ..."
+    $GIT fetch "$remote" "$(printf "$pr_template" "$prnum")" || die "Failed to fetch PR #$prnum from $remote"
+    real_branch="pr/$prnum"
+    if ! $GIT show-ref --verify --quiet "refs/heads/$real_branch"; then
+      $GIT branch "$real_branch" FETCH_HEAD
+    fi
+  else
+    real_branch="${input#refs/heads/}"
+    $GIT fetch "$remote" "$real_branch"
+    if ! $GIT show-ref --verify --quiet "refs/heads/$real_branch"; then
+      $GIT branch --track "$real_branch" "$remote/$real_branch"
+    fi
+  fi
+
+  norm_branch="$(normalize_branch_name "$real_branch")"
+  target_dir="${parent_dir}/worktrees/${rn}/${norm_branch}"
+
+  if worktree_exists "$target_dir"; then
+    echo "Worktree already exists at: $target_dir"
+    echo "$target_dir"
+    command -v pbcopy >/dev/null 2>&1 && echo "code -n $target_dir" | pbcopy || true
+    return 0
+  fi
+
+  mkdir -p "$target_dir"
+  info "Creating worktree: $target_dir"
+  $GIT worktree add "$target_dir" "$real_branch"
+
+  # one-time per-worktree setup via external helper (no hooks needed)
+  local WT_HELPER="${GIT_WORKTREE_SETUP:-$HOME/.config/zsh/git-worktree-setup.zsh}"
+  if [ -x "$WT_HELPER" ]; then
+    "$WT_HELPER" --repo-root "$rr" --target-dir "$target_dir" --repo-name "$rn"
+  else
+    info "(info) no setup helper found at $WT_HELPER; skipping."
+  fi
+
+  echo "$target_dir"
+  command -v pbcopy >/dev/null 2>&1 && echo "code -n $target_dir" | pbcopy || true
+}
+
+cmd_remove() {
+  # Accept a path OR a branch/PR shorthand. Options: --force, --dry-run, --repo <name>
+  local target="${1:-}"; shift || true
+  local FORCE=0 DRYRUN=0 REPO_OVERRIDE=""
+  while [ $# -gt 0 ]; do
+    case "$1" in
+      --force|-f) FORCE=1 ;;
+      --dry-run)  DRYRUN=1 ;;
+      --repo)     REPO_OVERRIDE="${2:-}"; shift ;;
+      *) die "Unknown option: $1" ;;
+    esac
+    shift
+  done
+  [ -n "$target" ] || die "Usage: git-worktree remove <path|branch|pr-123> [--force] [--dry-run] [--repo <name>]"
+
+  local rr rn; rr="$(repo_root)" || die "Not in a git repo."; rn="${REPO_OVERRIDE:-$(repo_name)}"
+
+  local path=""
+  if [ -d "$target" ]; then
+    path="$(cd "$target" 2>/dev/null && pwd || true)"
+  else
+    local real_branch="$target"
+    if [[ "$target" =~ ^pr[-/]([0-9]+)$ ]]; then
+      real_branch="pr/${BASH_REMATCH[1]}"
+    fi
+    local norm_branch; norm_branch="$(normalize_branch_name "$real_branch")"
+    local parent_dir; parent_dir="$(dirname "$rr")"
+    path="${parent_dir}/worktrees/${rn}/${norm_branch}"
+  fi
+
+  if ! worktree_exists "$path"; then
+    die "No registered worktree at: $path"
+  fi
+  if [ "$path" = "$rr" ]; then
+    die "Refusing to remove the primary worktree: $path"
+  fi
+
+  if [ $DRYRUN -eq 1 ]; then
+    echo "[dry-run] Would run: git worktree remove ${FORCE:+-f }\"$path\""
+    return 0
+  fi
+
+  info "Removing worktree: $path"
+  if [ $FORCE -eq 1 ]; then
+    $GIT worktree remove -f "$path"
+  else
+    $GIT worktree remove "$path"
+  fi
+}
+
+cmd_prune() {
+  local DRYRUN=0 GONE=0 FORCE=0
+  while [ $# -gt 0 ]; do
+    case "$1" in
+      --dry-run) DRYRUN=1 ;;
+      --gone)    GONE=1 ;;
+      --force)   FORCE=1 ;;
+      *) die "Unknown option: $1" ;;
+    esac
+    shift
+  done
+
+  if [ $DRYRUN -eq 1 ]; then
+    echo "[dry-run] Would run: git worktree prune"
+  else
+    $GIT worktree prune
+  fi
+
+  if [ $GONE -eq 1 ]; then
+    info "Checking for stale worktrees (branches gone)..."
+    local path="" branch=""
+    while read -r line; do
+      case "$line" in
+        worktree\ *) path="${line#worktree }" ;;
+        branch\ *)   branch="${line#branch }" ;;
+        "")
+          if [ -n "$path" ] && [ -n "$branch" ] && [ "$branch" != "(detached HEAD)" ]; then
+            local b="${branch#refs/heads/}"
+            if ! $GIT show-ref --verify --quiet "refs/heads/$b"; then
+              if [ $DRYRUN -eq 1 ]; then
+                echo "[dry-run] Would remove stale worktree: $path  (branch: $branch)"
+              else
+                info "Removing stale worktree: $path  (branch: $branch)"
+                if [ $FORCE -eq 1 ]; then
+                  $GIT worktree remove -f "$path"
+                else
+                  $GIT worktree remove "$path"
+                fi
+              fi
+            fi
+          fi
+          path=""; branch=""
+          ;;
+      esac
+    done < <($GIT worktree list --porcelain; echo)
+  fi
+}
+
+# ----- dispatch -----
+sub="${1:-}"
+if [ -z "$sub" ]; then
+  usage; exit 2
+fi
+
+case "$sub" in
+  branch) shift; cmd_branch "$@" ;;
+  remove) shift; cmd_remove "$@" ;;
+  prune)  shift; cmd_prune "$@" ;;
+  help|-h|--help) usage ;;
+
+  # pass everything else through to `git worktree`
+  *)
+    # run and capture exit; on failure, suggest 'branch' if it looks like a branch/PR token
+    printf "[git-worktree] Running: git worktree %s\n" "$*"
+
+    # With 'set -e' active, run the command in a conditional so failure won't abort the script
+    if ! $GIT worktree "$@"; then
+      status=$?
+
+      # Friendly hint if the token looks like a branch/PR shorthand
+      if [[ "$sub" =~ ^pr[-/][0-9]+$ || "$sub" == */* || "$sub" =~ ^[A-Za-z0-9._-]+$ ]]; then
+        echo "Tip: did you mean 'git-worktree branch $sub'? [Copied into buffer]"
+        echo "git-worktree branch $sub" | pbcopy
+      fi
+      exit $status
+    fi
+    ;;
+esac

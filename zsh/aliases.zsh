@@ -5,6 +5,7 @@ alias gf='git fetch'
 alias gs='git status'
 alias git-pull-mainline='git fetch origin mainline:mainline' # Helper alias to fetch & pull mainline without needing to checkout
 alias gfp='git fetch && git pull --ff-only'
+alias gwt='git-worktree'
 
 alias grepi='grep -i' 						# Case insensenstive grep
 alias grepr='grep -r' 						# Recursive grep

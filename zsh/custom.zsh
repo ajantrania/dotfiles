@@ -136,3 +136,6 @@ ZSH_HIGHLIGHT_STYLES[path_prefix]=none
 
 # Activate autosuggestions
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+# Add local scripts to Path
+export PATH="$HOME/.config/zsh/scripts:$PATH"
