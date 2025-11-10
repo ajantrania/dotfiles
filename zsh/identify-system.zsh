@@ -3,7 +3,8 @@
 # Other configuration files can then use this variable to set appropriate values
 
 # Get the hostname of the current machine
-HOSTNAME=$(hostname)
+# Use LocalHostName (from System Settings) which is more reliable on macOS
+HOSTNAME=$(scutil --get LocalHostName 2>/dev/null || hostname)
 
 # Default to personal
 SYSTEM_TYPE="personal"
