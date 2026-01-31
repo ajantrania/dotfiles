@@ -136,8 +136,8 @@ update_vpn() {
             sketchybar --set $NAME icon=$ICON_VPN_ON_EXIT_NODE_OFF icon.color=$LABEL_COLOR icon.highlight=off label=$COUNTRY
         fi
     elif [ "$VPN_INTERFACE" = "vpn" ]; then
-        # Generic VPN detected (Nord, etc.) - acts as exit node
-        sketchybar --set $NAME icon=$ICON_VPN_ON_EXIT_NODE_ON icon.color=$ORANGE icon.highlight=off label=$COUNTRY
+        # Generic VPN detected (Nord, etc.)
+        sketchybar --set $NAME icon=$ICON_VPN_ON_EXIT_NODE_ON icon.color=$LABEL_COLOR icon.highlight=off label=$COUNTRY
     elif [ "$VPN_INTERFACE" = "tailscale" ]; then
         # Tailscale detected via interface but no CLI (shouldn't happen normally)
         sketchybar --set $NAME icon=$ICON_VPN_ON_EXIT_NODE_OFF icon.color=$LABEL_COLOR icon.highlight=off label=$COUNTRY
