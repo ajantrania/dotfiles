@@ -51,6 +51,9 @@ export NVM_DIR="$HOME/.nvm"
 # LLVM
 export LIBCLANG_PATH="/opt/homebrew/opt/llvm/lib"
 
+# Docker
+[ -d "$HOME/.docker/bin" ] && export PATH="$HOME/.docker/bin:$PATH"
+
 # Configure Docker socket path for Docker Desktop on macOS
 export DOCKER_HOST=unix://${HOME}/.docker/run/docker.sock
 
