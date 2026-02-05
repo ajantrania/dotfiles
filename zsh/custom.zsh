@@ -30,6 +30,12 @@ zstyle ':completion:*' list-separator ''
 zstyle ':completion:*:*:git:*' script $HOME/.config/zsh/git-completion.bash
 fpath=($HOME/.config/zsh $fpath)
 
+# Set GitHub CLI token if authenticated
+if _gh_token=$(gh auth token 2>/dev/null); then
+  export GH_TOKEN="$_gh_token"
+fi
+unset _gh_token
+
 # compinit is now handled by zsh-autocomplete
 # autoload -Uz compinit && compinit
 
