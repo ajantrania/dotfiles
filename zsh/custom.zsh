@@ -48,6 +48,13 @@ export PATH="$PATH:/Users/ajantrania/.local/bin"
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
+# GOENV
+export GOENV_ROOT="$HOME/.goenv"
+export PATH="$GOENV_ROOT/bin:$PATH"
+eval "$(goenv init -)"
+export PATH="$GOROOT/bin:$PATH"
+export PATH="$PATH:$GOPATH/bin"
+
 # LLVM
 export LIBCLANG_PATH="/opt/homebrew/opt/llvm/lib"
 
