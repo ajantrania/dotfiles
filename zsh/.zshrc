@@ -16,6 +16,9 @@ setopt HIST_IGNORE_ALL_DUPS
 [ -f "$HOME/.config/zsh/work.zsh" ] && source "$HOME/.config/zsh/work.zsh"
 # [ -f "$HOME/.config/zsh/stackery.zsh" ] && source "$HOME/.config/zsh/stackery.zsh"
 
+# Load secrets
+[[ -f ~/.secrets ]] && source ~/.secrets
+
 # AWS work configurations
 if [ "$SYSTEM_TYPE" = "archodex-work" ]; then
     [ -f "$HOME/.config/zsh/archodex.zsh" ] && source "$HOME/.config/zsh/archodex.zsh"

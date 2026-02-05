@@ -5,7 +5,9 @@ wezterm/*.jpg
 wezterm/*.png
 wezterm/*.jpeg
 work.zsh
+.claude
 
+.secrets
 *private.zsh
 
 # Sketchybar cache
