@@ -1,3 +1,5 @@
+echo "Loading archodex credentials..."
+
 export AWS_PROFILE=archodex-apurva-AdministratorAccess
 export AWS_SDK_LOAD_CONFIG=1
 export AWS_REGION=us-west-2
