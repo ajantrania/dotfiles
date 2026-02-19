@@ -2,6 +2,8 @@
 brew "readline"
 # Official Amazon AWS command-line interface
 brew "awscli"
+# Simple, modern and secure file encryption tool
+brew "age"
 # Command-line fuzzy finder written in Go
 brew "fzf"
 # GNU compiler collection
@@ -18,6 +20,8 @@ brew "zsh-autocomplete"
 brew "starship"
 # GitHub CLI
 brew "gh"
+# 1Password command-line tool
+brew "1password-cli"
 # Kubernetes package manager
 brew "helm"
 # k3s in docker for local kubernetes development
@@ -28,6 +32,8 @@ brew "sketchybar"
 brew "tree"
 # Search tool like grep and The Silver Searcher
 brew "ripgrep"
+# Editor of encrypted files for storing secrets in Git
+brew "sops"
 # General-purpose programming language designed for robustness, optimality, and maintainability
 brew "zig"
 # App to build and share containerized applications and microservices

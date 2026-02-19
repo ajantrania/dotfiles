@@ -1,0 +1,12 @@
+# SOPS config for dotfiles secrets.
+# Add each machine's public key from:
+#   age-keygen -y ~/.config/sops/age/keys.txt
+#
+# Convention for zsh config secrets:
+# - encrypted files tracked in git:  zsh/*.env
+# - local decrypted files (ignored): zsh/*.env.local
+creation_rules:
+  - path_regex: ^zsh/.*\.env$
+    age:
+      # Private/age encryption key
+      - age1a5ygr85gpemqa8edn5jdwyh86kfvpqupaa06fccf32q6weef6drs4pwv87
