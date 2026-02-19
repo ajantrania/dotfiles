@@ -9,6 +9,10 @@ work.zsh
 
 .secrets
 *private.zsh
+*.env
+*.local
+# Keep encrypted SOPS env files in git; plaintext remains in *.env.local.
+!zsh/*.env
 
 # Sketchybar cache
 sketchybar/cache/*
