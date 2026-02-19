@@ -67,4 +67,20 @@ if [[ "$overwrite_dotfiles" == "y" ]]; then
 fi
 ./scripts/symlinks.sh --create
 
+printf "\n"
+info "===================="
+info "Git Hooks"
+info "===================="
+
+if [[ -f ".githooks/pre-commit" ]]; then
+    chmod +x ./.githooks/pre-commit
+    if [[ -f "./.githooks/sync-encrypted-envs.sh" ]]; then
+        chmod +x ./.githooks/sync-encrypted-envs.sh
+    fi
+    git config --local core.hooksPath .githooks
+    info "Configured git hooks path to .githooks"
+else
+    warning "Skipped git hooks setup: .githooks/pre-commit not found"
+fi
+
 success "Dotfiles set up successfully."

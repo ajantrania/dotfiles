@@ -1,0 +1,14 @@
+#!/bin/bash
+# pre-commit hook entrypoint.
+
+set -euo pipefail
+
+ROOT_DIR="$(git rev-parse --show-toplevel)"
+HOOK_IMPL="$ROOT_DIR/.githooks/sync-encrypted-envs.sh"
+
+if [[ ! -x "$HOOK_IMPL" ]]; then
+    echo "pre-commit: missing executable hook script: $HOOK_IMPL" >&2
+    exit 1
+fi
+
+"$HOOK_IMPL"
